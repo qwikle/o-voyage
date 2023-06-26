@@ -1,6 +1,6 @@
 import './assets/main.css'
-import '@animxyz/vue3'
 import VueAnimXYZ from '@animxyz/vue3'
+import '@animxyz/core'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import apiService from './services/api/api.service'

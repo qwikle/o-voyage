@@ -3,8 +3,10 @@ import inputWidget from '@/components/widgets/inputWidget.vue'
 import { useAuthStore } from '@/stores/auth.store'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+import { useAlertStore } from '@/stores/alert.store'
 
 const authStore = useAuthStore()
+const alertStore = useAlertStore()
 const router = useRouter()
 const forms = ref([
   {
@@ -35,6 +37,10 @@ async function submitForm(event: Event) {
   const password = forms.value[1].value
   const res = await authStore.signIn({ email, password })
   if (res) {
+    alertStore.showAlert({
+      message: 'Vous êtes connecté',
+      type: 'info'
+    })
     router.push({ name: 'Home' })
   }
 }
