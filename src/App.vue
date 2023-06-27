@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import HeaderView from './components/HeaderView.vue'
+import HeaderComponent from './components/HeaderComponent.vue'
 import AlertWidget from './components/alertWidget.vue'
 </script>
 
 <template>
-  <HeaderView />
+  <HeaderComponent />
   <main class="container mx-auto px-5 py-4 relative">
     <RouterView />
     <AlertWidget />

@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
 const props = defineProps({
+  name: String,
   label: String,
   type: String,
   value: String,
@@ -21,10 +22,11 @@ defineEmits(['update:modelValue'])
 </script>
 <template>
   <div class="flex flex-col items-center">
-    <label :for="label" class="self-start">{{ label }}</label>
+    <label :for="name" class="self-start">{{ label }}</label>
     <div class="relative">
       <input
-        :id="label"
+        :id="name"
+        :name="name"
         :type="reactiveType"
         :modelValue="value"
         :placeholder="placeholder"

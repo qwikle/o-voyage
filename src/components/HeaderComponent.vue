@@ -4,10 +4,6 @@ import { ref } from 'vue'
 
 const menus = ref([
   {
-    label: 'Accueil',
-    path: '/'
-  },
-  {
     label: 'Connexion',
     path: '/signin'
   },
