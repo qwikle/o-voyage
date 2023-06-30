@@ -4,7 +4,7 @@ import type { User } from '@/models'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    isLogged: false,
+    isAuthenticated: false,
     user: null as User | null
   }),
   actions: {
@@ -12,16 +12,16 @@ export const useAuthStore = defineStore('auth', {
       try {
         const user = await authService.signIn({ email, password })
         this.user = user
-        console.log(this.user)
         this.$alert.showAlert({
           message: 'Vous êtes connecté',
           type: 'success'
         })
-        this.isLogged = true
+        this.isAuthenticated = true
         this.$router.push({ name: 'Home' })
-      } catch (errors) {
+      } catch (error) {
         this.$alert.showAlert({
-          message: errors.message,
+          // @ts-ignore
+          message: error.message,
           type: 'error'
         })
       }
@@ -35,12 +35,12 @@ export const useAuthStore = defineStore('auth', {
           message: 'Vous êtes connecté',
           type: 'success'
         })
-        this.isLogged = true
+        this.isAuthenticated = true
         this.$router.push({ name: 'Home' })
-      } catch (errors) {
-        console.log(errors)
+      } catch (error) {
         this.$alert.showAlert({
-          message: errors.message,
+          // @ts-ignore
+          message: error.message,
           type: 'error'
         })
       }
