@@ -2,8 +2,6 @@
 import ContainerFormWidget from '@/components/widgets/ContainerFormWidget.vue'
 import inputWidget from '@/components/widgets/inputWidget.vue'
 import { useAuthStore } from '@/stores/auth.store'
-import { useAlertStore } from '@/stores/alert.store'
-import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 
 const forms = ref([
@@ -19,7 +17,7 @@ const forms = ref([
     isPassword: false
   },
   {
-    name: 'firstName',
+    name: 'firstname',
     label: 'Prénom',
     type: 'text',
     value: '',
@@ -30,7 +28,7 @@ const forms = ref([
     isPassword: false
   },
   {
-    name: 'lastName',
+    name: 'lastname',
     label: 'Nom',
     type: 'text',
     value: '',
@@ -64,30 +62,21 @@ const forms = ref([
   }
 ])
 const authStore = useAuthStore()
-const alertStore = useAlertStore()
-const router = useRouter()
 
 async function submitForm(event: Event) {
   event.preventDefault()
   const email = forms.value[0].value
-  const firstName = forms.value[1].value
-  const lastName = forms.value[2].value
+  const firstname = forms.value[1].value
+  const lastname = forms.value[2].value
   const password = forms.value[3].value
   const confirmPassword = forms.value[4].value
-  const res = await authStore.signUp({
+  await authStore.signUp({
     email,
-    firstName,
-    lastName,
+    firstname,
+    lastname,
     password,
     confirmPassword
   })
-  if (res) {
-    alertStore.showAlert({
-      message: 'Vous êtes inscrit',
-      type: 'info'
-    })
-    router.push({ name: 'Home' })
-  }
 }
 </script>
 <template>
@@ -106,7 +95,7 @@ async function submitForm(event: Event) {
         :autocomplete="form.autocomplete"
         :isPassword="form.isPassword"
       />
-      <button class="btn btn-primary">S'inscrire</button>
+      <button class="btn btn-primary w-full">S'inscrire</button>
     </form>
   </ContainerFormWidget>
 </template>
