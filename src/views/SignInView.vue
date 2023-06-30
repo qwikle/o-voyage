@@ -2,7 +2,7 @@
 import inputWidget from '@/components/widgets/inputWidget.vue'
 import ContainerFormWidget from '@/components/widgets/ContainerFormWidget.vue'
 import { useAuthStore } from '@/stores/auth.store'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const authStore = useAuthStore()
 const forms = ref([
@@ -36,6 +36,10 @@ async function submitForm(event: Event) {
   const password = forms.value[1].value
   await authStore.signIn({ email, password })
 }
+
+const isDisabled = computed(() => {
+  return forms.value[0].value === '' || forms.value[1].value === ''
+})
 </script>
 
 <template>
@@ -54,11 +58,7 @@ async function submitForm(event: Event) {
         :autocomplete="form.autocomplete"
         :isPassword="form.isPassword"
       />
-      <button
-        type="submit"
-        class="btn btn-primary w-full"
-        :disabled="forms[0].value === '' || forms[1].value === ''"
-      >
+      <button type="submit" class="btn btn-primary w-full" :disabled="isDisabled">
         Se connecter
       </button>
     </form>

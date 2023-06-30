@@ -2,7 +2,7 @@
 import ContainerFormWidget from '@/components/widgets/ContainerFormWidget.vue'
 import inputWidget from '@/components/widgets/inputWidget.vue'
 import { useAuthStore } from '@/stores/auth.store'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const forms = ref([
   {
@@ -63,6 +63,16 @@ const forms = ref([
 ])
 const authStore = useAuthStore()
 
+const isDisabled = computed(() => {
+  return (
+    forms.value[0].value === '' ||
+    forms.value[1].value === '' ||
+    forms.value[2].value === '' ||
+    forms.value[3].value === '' ||
+    forms.value[4].value === ''
+  )
+})
+
 async function submitForm(event: Event) {
   event.preventDefault()
   const email = forms.value[0].value
@@ -95,7 +105,7 @@ async function submitForm(event: Event) {
         :autocomplete="form.autocomplete"
         :isPassword="form.isPassword"
       />
-      <button class="btn btn-primary w-full">S'inscrire</button>
+      <button class="btn btn-primary w-full" :disabled="isDisabled">S'inscrire</button>
     </form>
   </ContainerFormWidget>
 </template>
