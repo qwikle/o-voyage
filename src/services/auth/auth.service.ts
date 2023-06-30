@@ -1,5 +1,5 @@
-import type { AxiosResponse } from 'axios'
 import apiService, { type ApiInterface } from '../api/api.service'
+import type { User } from '@/models'
 
 class AuthService {
   client: ApiInterface
@@ -10,17 +10,20 @@ class AuthService {
 
   /**
    * @description Sign in user
-   * @param param0 { email: string; password: string }
-   * @returns  { accessToken: string; refreshToken: string }
+   * @param signInInput { email: string; password: string }
+   * @returns  { User }
    */
-  async signIn({ email, password }: SignInInput): Promise<{
-    accessToken: string
-    refreshToken: string
-  }> {
-    const { data } = (await this.client.mutation({
+  async signIn({ email, password }: SignInInput): Promise<User> {
+    const { signIn } = (await this.client.mutation({
       query: `
         mutation Mutation($signInInput: SignInInput!) {
           signIn(signInInput: $signInInput) {
+            user {
+              id
+              email
+              firstname
+              lastname
+            }
             token {
               accessToken
               refreshToken
@@ -34,23 +37,27 @@ class AuthService {
           password
         }
       }
-    })) as AxiosResponse<{
-      data: { signIn: { token: { accessToken: string; refreshToken: string } } }
-    }>
-    this.client.setAccessToken(data.data.signIn.token.accessToken)
-    this.client.setRefreshToken(data.data.signIn.token.refreshToken)
+    })) as unknown as {
+      signIn: { token: { accessToken: string; refreshToken: string }; user: User }
+    }
+    this.client.setAccessToken(signIn.token.accessToken)
+    this.client.setRefreshToken(signIn.token.refreshToken)
 
-    return data.data.signIn.token
+    return signIn.user
   }
 
   /**
    * @description Sign up user
-   * @param param0 { email: string; password: string; confirmPassword: string; firstName: string; lastName: string }
+   * @param signUpInput { email: string; password: string; confirmPassword: string; firstName: string; lastName: string }
    * @returns  { accessToken: string; refreshToken: string }
    *  */
-  async signUp({ email, password, confirmPassword, firstName, lastName }: SignUpInput): Promise<{
-    token: { accessToken: string; refreshToken: string }
-  }> {
+  async signUp({
+    email,
+    password,
+    confirmPassword,
+    firstname,
+    lastname
+  }: SignUpInput): Promise<User> {
     const mutation = `
     mutation Mutation($signUpInput: SignUpInput!) {
   signUp(signUpInput: $signUpInput) {
@@ -71,21 +78,21 @@ class AuthService {
         email,
         password,
         confirmPassword,
-        firstName,
-        lastName
+        firstname,
+        lastname
       }
     }
 
-    const { data } = (await this.client.mutation({
+    const { signUp } = (await this.client.mutation({
       query: mutation,
       variables
-    })) as AxiosResponse<{
-      data: { signUp: { token: { accessToken: string; refreshToken: string } } }
-    }>
-    localStorage.setItem('accessToken', data.data.signUp.token.accessToken)
-    localStorage.setItem('refreshToken', data.data.signUp.token.refreshToken)
+    })) as unknown as {
+      signUp: { token: { accessToken: string; refreshToken: string }; user: User }
+    }
+    this.client.setAccessToken(signUp.token.accessToken)
+    this.client.setRefreshToken(signUp.token.refreshToken)
 
-    return data.data.signUp
+    return signUp.user
   }
 
   /**
@@ -93,9 +100,7 @@ class AuthService {
    * @returns  { boolean }
    * */
   signOut(): boolean {
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
-
+    this.client.removeTokens()
     return true
   }
 }
@@ -109,8 +114,8 @@ export interface SignUpInput {
   email: string
   password: string
   confirmPassword: string
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
 }
 
 export default new AuthService(apiService)
