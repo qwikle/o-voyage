@@ -1,6 +1,6 @@
 import axios, { Axios, AxiosError, type AxiosResponse } from 'axios'
 
-class ApiService {
+class ApiService implements ApiInterface {
   private axios: Axios
 
   constructor() {
@@ -14,7 +14,21 @@ class ApiService {
     this.graphQlInterceptor()
   }
 
-  private graphQlInterceptor() {
+  /**
+   * @description Remove tokens from localStorage and axios headers
+   * @returns  { void }
+   * */
+  removeTokens(): void {
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+    this.axios.defaults.headers.common.Authorization = ''
+  }
+
+  /**
+   * @description Set interceptor for graphql requests
+   * @returns  { void }
+   * */
+  private graphQlInterceptor(): void {
     this.axios.interceptors.request.use((config) => {
       config.headers.Authorization = `${localStorage.getItem('accessToken')}`
       return config
@@ -38,11 +52,15 @@ class ApiService {
           )
         )
       }
-      return response
+      return response.data.data
     })
   }
 
-  private async refreshToken() {
+  /**
+   * @description Refresh token
+   * @returns  { boolean }
+   * */
+  private async refreshToken(): Promise<boolean> {
     const refreshToken = localStorage.getItem('refreshToken')
     try {
       const { data } = await this.axios.post('', {
@@ -59,22 +77,38 @@ class ApiService {
       this.setRefreshToken(data.data.refreshToken.refreshToken)
       return true
     } catch (_) {
-      localStorage.removeItem('accessToken')
-      localStorage.removeItem('refreshToken')
+      this.removeTokens()
       return false
     }
   }
 
-  public setAccessToken(token: string) {
+  /**
+   * @description Set access token
+   * @param token { string }
+   * @returns  { void }
+   * */
+  public setAccessToken(token: string): void {
     localStorage.setItem('accessToken', token)
     this.axios.defaults.headers.common.Authorization = token
   }
 
-  public setRefreshToken(token: string) {
+  /**
+   * @description Set refresh token
+   * @param token { string }
+   * @returns  { void }
+   * */
+  public setRefreshToken(token: string): void {
     localStorage.setItem('refreshToken', token)
   }
 
-  public query({ query, operationName, variables }: GraphQlQuery) {
+  /**
+   * @description Send graphql query
+   * @param query { string }
+   * @param operationName { string }
+   * @param variables { Record<string, unknown> }
+   * @returns  { Promise<AxiosResponse<unknown>> }
+   * */
+  public query({ query, operationName, variables }: GraphQlQuery): Promise<AxiosResponse<unknown>> {
     return this.axios.post('', {
       query,
       operationName,
@@ -102,6 +136,7 @@ export interface ApiInterface {
   mutation(query: GraphQlQuery): Promise<AxiosResponse<unknown>>
   setAccessToken(token: string): void
   setRefreshToken(token: string): void
+  removeTokens(): void
 }
 
 export default new ApiService()
