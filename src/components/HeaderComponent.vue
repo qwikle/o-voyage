@@ -28,8 +28,8 @@ const menus = ref([
           <li v-for="menu in menus" :key="menu.label">
             <RouterLink
               :to="menu.path"
-              class="flex items-center h-8 px-2 rounded hover:bg-stone-500"
-              active-class="bg-stone-500"
+              class="flex items-center h-8 px-2 rounded hover:bg-red-200 hover:text-slate-800"
+              active-class="bg-red-200 text-slate-800"
               >{{ menu.label }}</RouterLink
             >
           </li>
