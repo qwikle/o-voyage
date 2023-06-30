@@ -21,9 +21,9 @@ function togglePassword() {
 defineEmits(['update:modelValue'])
 </script>
 <template>
-  <div class="flex flex-col items-center">
+  <div class="flex flex-col items-center w-full">
     <label :for="name" class="self-start">{{ label }}</label>
-    <div class="relative">
+    <div class="relative w-full">
       <input
         :id="name"
         :name="name"
@@ -33,7 +33,7 @@ defineEmits(['update:modelValue'])
         :required="required"
         :disabled="disabled"
         :autocomplete="autocomplete"
-        @input="$emit('update:modelValue', $event.target?.value)"
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         class="input border-none input-primary w-full shadow"
       />
       <div class="absolute inset-y-0 right-0 flex items-center pr-2">
