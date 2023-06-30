@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import inputWidget from '@/components/widgets/inputWidget.vue'
 
 const forms = ref([
   {
@@ -65,10 +66,9 @@ function submitForm(event: Event) {
   <section class="bg-red-200 p-2 text-gray-600 absolute w-full top-0 right-0">
     <form
       @submit="submitForm"
-      class="flex flex-col gap-y-2 px-10 items-center lg:flex-row lg:gap-x-2 lg:justify-center lg:h-24"
+      class="flex flex-col gap-y-2 px-10 items-center lg:flex-row lg:justify-center lg:gap-x-6 lg:h-24"
     >
-      <input
-        class="input w-full"
+      <inputWidget
         v-for="form in forms"
         :key="form.name"
         v-model="form.value"
