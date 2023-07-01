@@ -21,8 +21,10 @@ function togglePassword() {
 defineEmits(['update:modelValue'])
 </script>
 <template>
-  <div class="flex flex-col items-center w-full gap-1">
-    <label v-if="label" :for="name" class="self-start text-sm">{{ label }}</label>
+  <div class="flex flex-col items-center w-full gap-1 relative">
+    <label v-if="label" :for="name" class="self-start text-sm font-semibold absolute -top-5">{{
+      label
+    }}</label>
     <div class="relative w-full">
       <input
         :id="name"
