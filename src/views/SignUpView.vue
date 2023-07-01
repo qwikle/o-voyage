@@ -1,8 +1,19 @@
 <script setup lang="ts">
 import ContainerFormWidget from '@/components/widgets/ContainerFormWidget.vue'
-import inputWidget from '@/components/widgets/inputWidget.vue'
+import inputWidget from '@/components/widgets/InputWidget.vue'
 import { useAuthStore } from '@/stores/auth.store'
 import { ref, computed } from 'vue'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Inscription',
+  meta: [
+    {
+      name: 'description',
+      content: 'Inscription'
+    }
+  ]
+})
 
 const forms = ref([
   {
@@ -91,7 +102,7 @@ async function submitForm(event: Event) {
 </script>
 <template>
   <ContainerFormWidget title="Inscription">
-    <form @submit="submitForm" class="flex flex-col gap-4">
+    <form @submit="submitForm" class="flex flex-col gap-8">
       <inputWidget
         v-for="form in forms"
         :key="form.label"
@@ -105,7 +116,9 @@ async function submitForm(event: Event) {
         :autocomplete="form.autocomplete"
         :isPassword="form.isPassword"
       />
-      <button class="btn btn-primary w-full" :disabled="isDisabled">S'inscrire</button>
+      <button class="btn btn-primary w-full" :disabled="isDisabled" aria-label="Connexion">
+        S'inscrire
+      </button>
     </form>
   </ContainerFormWidget>
 </template>

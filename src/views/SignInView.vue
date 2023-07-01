@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import inputWidget from '@/components/widgets/inputWidget.vue'
+import inputWidget from '@/components/widgets/InputWidget.vue'
 import ContainerFormWidget from '@/components/widgets/ContainerFormWidget.vue'
 import { useAuthStore } from '@/stores/auth.store'
 import { ref, computed } from 'vue'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Connexion'
+})
 
 const authStore = useAuthStore()
 const forms = ref([
@@ -44,7 +49,7 @@ const isDisabled = computed(() => {
 
 <template>
   <ContainerFormWidget title="Connexion">
-    <form @submit="submitForm" class="flex flex-col gap-4">
+    <form @submit="submitForm" class="flex flex-col gap-8">
       <inputWidget
         v-for="form in forms"
         :key="form.label"
