@@ -5,14 +5,12 @@ import AlertWidget from './components/alertWidget.vue'
 
 <template>
   <HeaderComponent />
-  <div class="relative">
-    <main class="container mx-auto px-5 py-4">
-      <RouterView v-slot="{ Component }">
-        <XyzTransition appear mode="out-in" duration="500" xyz="fade">
-          <component class="" :is="Component" />
-        </XyzTransition>
-      </RouterView>
-    </main>
-    <AlertWidget />
-  </div>
+  <main class="mx-auto">
+    <RouterView v-slot="{ Component }">
+      <XyzTransition appear mode="out-in" duration="500" xyz="fade">
+        <component :is="Component" />
+      </XyzTransition>
+    </RouterView>
+  </main>
+  <AlertWidget />
 </template>
