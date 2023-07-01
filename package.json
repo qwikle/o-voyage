@@ -18,6 +18,7 @@
     "@animxyz/vue3": "^0.6.7",
     "@headlessui/vue": "^1.7.14",
     "@heroicons/vue": "^2.0.18",
+    "@unhead/vue": "^1.1.29",
     "@vueuse/core": "^10.2.0",
     "axios": "^1.4.0",
     "pinia": "^2.1.3",
