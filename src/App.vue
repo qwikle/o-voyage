@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HeaderComponent from './components/HeaderComponent.vue'
-import AlertWidget from './components/alertWidget.vue'
+import AlertWidget from './components/alertComponent.vue'
 </script>
 
 <template>
