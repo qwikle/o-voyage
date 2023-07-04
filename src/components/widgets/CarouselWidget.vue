@@ -19,7 +19,7 @@ onMounted(() => {
   let slideIndex = 0
   interval = setInterval(() => {
     if (slideIndex === props.images.length - 1) {
-      slideIndex = 1
+      slideIndex = 0
       carousel?.scrollBy({
         top: 0,
         left: -900 * props.images.length,
