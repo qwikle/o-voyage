@@ -42,7 +42,7 @@ defineEmits(['update:modelValue'])
         <button
           v-if="isPassword"
           type="button"
-          class="hover:bg-slate-100 rounded-full h-8 w-8 flex items-center justify-center"
+          class="hover:bg-gray-300 rounded-full h-8 w-8 flex items-center justify-center"
           @click="togglePassword"
         >
           <EyeIcon v-if="reactiveType === 'password'" class="h-5 w-5 text-primary" />
