@@ -63,7 +63,12 @@ const isDisabled = computed(() => {
         :autocomplete="form.autocomplete"
         :isPassword="form.isPassword"
       />
-      <button type="submit" class="btn btn-primary w-full" :disabled="isDisabled">
+      <button
+        aria-label="submit"
+        type="submit"
+        class="btn btn-primary w-full"
+        :disabled="isDisabled"
+      >
         Se connecter
       </button>
     </form>

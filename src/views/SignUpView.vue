@@ -116,7 +116,7 @@ async function submitForm(event: Event) {
         :autocomplete="form.autocomplete"
         :isPassword="form.isPassword"
       />
-      <button class="btn btn-primary w-full" :disabled="isDisabled" aria-label="Connexion">
+      <button class="btn btn-primary w-full" :disabled="isDisabled" aria-label="submit">
         S'inscrire
       </button>
     </form>
