@@ -27,8 +27,8 @@ defineProps({
         'lg:flex-row': imagePosition === 'left'
       }"
     >
-      <div class="rounded-xl shadow-lg h-40 lg:h-auto" :class="bgColor">
-        <img :src="image" :alt="imageAlt" class="h-full" />
+      <div class="rounded-xl shadow-lg flex justify-center items-center" :class="bgColor">
+        <img :src="image" :alt="imageAlt" class="w-52 lg:max-w-xs" />
       </div>
       <div class="flex flex-col px-10 gap-y-6">
         <h2 class="text-2xl lg:text-4xl font-bold">{{ title }}</h2>
