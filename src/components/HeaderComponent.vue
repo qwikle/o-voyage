@@ -1,17 +1,38 @@
 <script setup lang="ts">
 import { Bars3BottomRightIcon } from '@heroicons/vue/24/outline'
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useAuthStore } from '@/stores/auth.store'
 
-const menus = ref([
-  {
-    label: 'Connexion',
-    path: '/signin'
-  },
-  {
-    label: 'Inscription',
-    path: '/signup'
+const authStore = useAuthStore()
+
+const menus = computed(() => {
+  if (authStore.isAuthenticated) {
+    return [
+      {
+        label: 'Mes voyages',
+        path: '/trips'
+      },
+      {
+        label: 'Mon compte',
+        path: '/account'
+      },
+      {
+        label: 'Déconnexion',
+        path: '/signout'
+      }
+    ]
   }
-])
+  return [
+    {
+      label: 'Connexion',
+      path: '/signin'
+    },
+    {
+      label: 'Inscription',
+      path: '/signup'
+    }
+  ]
+})
 </script>
 <template>
   <header class="h-14 bg-slate-800 flex items-center justify-between px-5">
@@ -26,7 +47,15 @@ const menus = ref([
       <nav class="hidden md:block">
         <ul class="flex gap-x-2">
           <li v-for="menu in menus" :key="menu.label">
+            <button
+              v-if="menu.path === '/signout'"
+              @click="authStore.signOut"
+              class="flex items-center py-1 px-2 rounded hover:bg-white hover:text-slate-800"
+            >
+              {{ menu.label }}
+            </button>
             <RouterLink
+              v-else
               :to="menu.path"
               class="flex items-center py-1 px-2 rounded hover:bg-white hover:text-slate-800"
               active-class="bg-white text-slate-800"
