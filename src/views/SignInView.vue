@@ -6,7 +6,17 @@ import { ref, computed } from 'vue'
 import { useHead } from '@unhead/vue'
 
 useHead({
-  title: 'Connexion'
+  title: 'Connexion',
+  meta: [
+    {
+      name: 'description',
+      content: 'Connectez-vous à votre compte Ovoyage'
+    },
+    {
+      name: 'keywords',
+      content: 'voyage, gestion, budget, amis, famille, photos'
+    }
+  ]
 })
 
 const authStore = useAuthStore()

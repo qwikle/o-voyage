@@ -10,7 +10,11 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: 'Inscription'
+      content: 'Inscrivez-vous à votre compte Ovoyage'
+    },
+    {
+      name: 'keywords',
+      content: 'voyage, gestion, budget, amis, famille, photos'
     }
   ]
 })
