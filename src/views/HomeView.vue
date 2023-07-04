@@ -5,10 +5,44 @@ import vacances from '@/assets/vacances.png'
 import tempsLibre from '@/assets/temps-libre.png'
 import comptabilite from '@/assets/comptabilite.png'
 import photos from '@/assets/des-photos.png'
+import beach from '@/assets/beach.jpg'
+import airplane from '@/assets/airplane.jpg'
+import mountain from '@/assets/mountain.jpg'
+import zetong from '@/assets/zetong.jpg'
+import CarouselWidget from '@/components/widgets/CarouselWidget.vue'
 import { useHead } from '@unhead/vue'
 useHead({
-  title: 'Ovoyage le super site de voyage'
+  title: 'Ovoyage le super site de voyage',
+  meta: [
+    {
+      name: 'description',
+      content: 'Ovoyage est un site de voyage qui vous permet de gérer votre voyage de A à Z'
+    },
+    {
+      name: 'keywords',
+      content: 'voyage, gestion, budget, amis, famille, photos'
+    }
+  ]
 })
+
+const images = [
+  {
+    src: beach,
+    alt: 'Une plage paradisiaque'
+  },
+  {
+    src: airplane,
+    alt: 'Un avion'
+  },
+  {
+    src: mountain,
+    alt: 'Une montagne'
+  },
+  {
+    src: zetong,
+    alt: 'Un zetong'
+  }
+]
 
 const articles = [
   {
@@ -64,6 +98,7 @@ const articles = [
 <template>
   <section class="flex flex-col gap-y-6">
     <TravelFormWidget />
+    <CarouselWidget :images="images" />
     <HeroArticleWidget
       v-for="article in articles"
       :key="article.title"
