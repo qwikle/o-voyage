@@ -27,6 +27,10 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    setAuthenticated() {
+      this.isAuthenticated = true
+    },
+
     async signUp(form: SignUpInput) {
       try {
         const user = await authService.signUp(form)
@@ -44,6 +48,17 @@ export const useAuthStore = defineStore('auth', {
           type: 'error'
         })
       }
+    },
+
+    signOut() {
+      authService.signOut()
+      this.isAuthenticated = false
+      this.user = null
+      this.$alert.showAlert({
+        message: 'Vous êtes déconnecté',
+        type: 'info'
+      })
+      this.$router.push({ name: 'Signin' })
     }
   }
 })
