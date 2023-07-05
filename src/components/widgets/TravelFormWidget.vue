@@ -1,19 +1,24 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import inputWidget from '@/components/widgets/InputWidget.vue'
+import SelectInputWidget from './SelectInputWidget.vue'
 import axios from 'axios'
+
+const timeout = ref(0)
+const options = ref([] as { id: number; name: string }[])
+const destination = ref({
+  name: 'to',
+  value: '',
+  label: 'Destination',
+  type: 'text',
+  placeholder: 'Entrez votre destination',
+  required: true,
+  disabled: false,
+  autocomplete: 'off',
+  isPassword: false
+})
+
 const forms = ref([
-  {
-    name: 'to',
-    label: 'Destination',
-    type: 'text',
-    value: '',
-    placeholder: 'Entrez votre destination',
-    required: true,
-    disabled: false,
-    autocomplete: 'off',
-    isPassword: false
-  },
   {
     name: 'departureDate',
     label: 'Date de départ',
@@ -56,23 +61,28 @@ const forms = ref([
     autocomplete: 'off'
   }
 ])
-const timeout = ref(0)
-watch(forms.value[0], async (newValue, oldValue) => {
-  const q = newValue.value.replace(/\s/g, '+')
-  if (timeout.value) clearTimeout(timeout.value)
-  if (newValue.value.length > 2) {
-    timeout.value = setTimeout(async () => {
-      const { data } = await axios.get(
-        `https://api-adresse.data.gouv.fr/search/?q=${q}&type=municipality&autocomplete=1`
-      )
-      console.log(data.features)
-    }, 1500)
+
+async function getOptions(event: InputEvent) {
+  clearTimeout(timeout.value)
+  destination.value.value = (event.target as HTMLInputElement).value
+  console.log(destination.value.value)
+  if (destination.value.value.length < 3) {
+    options.value = []
+    return
   }
-})
+  timeout.value = setTimeout(async () => {
+    const { data } = await axios.get(
+      `https://api-adresse.data.gouv.fr/search/?q=${destination.value.value}&type=municipality`
+    )
+    options.value = data.features.map((feature: any) => ({
+      id: feature.properties.id,
+      name: feature.properties.label
+    }))
+  }, 500)
+}
 
 function submitForm(event: Event) {
   event.preventDefault()
-  console.log(forms.value)
 }
 </script>
 <template>
@@ -82,6 +92,17 @@ function submitForm(event: Event) {
       @submit="submitForm"
       class="flex flex-col gap-y-6 px-10 items-center lg:flex-row lg:justify-center lg:gap-x-4 lg:h-24"
     >
+      <SelectInputWidget
+        :label="destination.label"
+        :name="destination.name"
+        :placeholder="destination.placeholder"
+        :required="destination.required"
+        :disabled="destination.disabled"
+        :autocomplete="destination.autocomplete"
+        :options="options"
+        @change="getOptions"
+        v-model="destination.value"
+      />
       <inputWidget
         v-for="form in forms"
         :key="form.name"
