@@ -8,10 +8,6 @@ export function isAuth() {
   return authStore.isAuthenticated
 }
 
-function checkAuth() {
-  return checkTokenExpiration()
-}
-
 function getTokens() {
   const accessToken = localStorage.getItem('accessToken')
   const refreshToken = localStorage.getItem('refreshToken')
@@ -31,7 +27,7 @@ function decodeTokens(
   }
 }
 
-function checkTokenExpiration() {
+function checkAuth() {
   const tokens = getTokens()
   if (tokens) {
     const { accessToken, refreshToken } = tokens
