@@ -65,7 +65,6 @@ const forms = ref([
 async function getOptions(event: InputEvent) {
   clearTimeout(timeout.value)
   destination.value.value = (event.target as HTMLInputElement).value
-  console.log(destination.value.value)
   if (destination.value.value.length < 3) {
     options.value = []
     return
