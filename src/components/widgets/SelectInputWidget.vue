@@ -40,7 +40,7 @@ defineEmits(['update:modelValue', 'change'])
       >
       <ComboboxInput
         @change="$emit('change', $event)"
-        class="h-12 px-2 placeholder:text-sm outline-none bg-slate-100 rounded-lg w-full focus:ring-2 focus:ring-primary"
+        class="h-12 px-2 placeholder:text-sm outline-none text-sm bg-slate-100 rounded-lg w-full focus:ring-2 focus:ring-primary"
         :id="name"
         :displayValue="(value) => value.name"
         :placeholder="placeholder"
@@ -49,7 +49,7 @@ defineEmits(['update:modelValue', 'change'])
       <XyzTransition xyz="fade duration-2">
         <ComboboxOptions
           v-if="options.length > 0"
-          class="bg-white absolute flex flex-col gap-y-2 text-sm justify center font-medium w-full mt-3 shadow z-40"
+          class="bg-white absolute flex flex-col gap-y-2 text-xs justify center font-medium w-full mt-3 shadow z-40"
         >
           <ComboboxOption
             class="cursor-pointer w-full flex items-center"

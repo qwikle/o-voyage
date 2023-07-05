@@ -36,7 +36,7 @@ defineEmits(['update:modelValue'])
         :disabled="disabled"
         :autocomplete="autocomplete"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-        class="h-12 px-2 placeholder:text-sm outline-none bg-slate-100 rounded-lg w-full focus:ring-2 focus:ring-primary"
+        class="h-12 px-2 placeholder:text-sm outline-none bg-slate-100 rounded-lg w-full focus:ring-2 focus:ring-primary text-sm"
       />
       <div class="absolute inset-y-0 right-0 flex items-center pr-2">
         <button
