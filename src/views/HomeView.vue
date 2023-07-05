@@ -96,7 +96,7 @@ const articles = [
 ]
 </script>
 <template>
-  <section class="flex flex-col gap-y-6">
+  <div class="flex flex-col gap-y-6">
     <TravelFormWidget />
     <CarouselWidget :images="images" />
     <HeroArticleWidget
@@ -110,7 +110,7 @@ const articles = [
       :bgColor="article.bgColor"
       :bgArticle="article.bgArticle"
     />
-  </section>
+  </div>
 </template>
 
 <style scoped></style>
