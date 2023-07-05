@@ -9,7 +9,7 @@ const router = createRouter({
       name: 'Home',
       component: () => import('../views/HomeView.vue'),
       meta: {
-        onlyGuest: false,
+        onlyGuest: true,
         requiresAuth: false
       }
     },
@@ -30,6 +30,15 @@ const router = createRouter({
         onlyGuest: true,
         requiresAuth: false
       }
+    },
+    {
+      path: '/trips',
+      name: 'Trips',
+      component: () => import('../views/TripsView.vue'),
+      meta: {
+        onlyGuest: false,
+        requiresAuth: true
+      }
     }
   ]
 })
@@ -43,7 +52,7 @@ router.beforeEach((to) => {
   }
   if (to.meta.onlyGuest) {
     if (authenticated) {
-      return { name: 'Home' }
+      return { name: 'Trips' }
     }
   }
 })
