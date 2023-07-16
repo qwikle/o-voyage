@@ -36,7 +36,7 @@ function setIsOpen(value: boolean) {
       Créer un voyage
     </button>
     <DialogComponent :show="isOpen" title="Créer un voyage" @close="setIsOpen">
-      <TravelFormWidget />
+      <TravelFormWidget isDialog />
     </DialogComponent>
   </div>
 </template>
