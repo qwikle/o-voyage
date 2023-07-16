@@ -62,3 +62,12 @@ export const useAuthStore = defineStore('auth', {
     }
   }
 })
+
+export interface AuthStore {
+  isAuthenticated: boolean
+  user: User | null
+  signIn: (form: SignInInput) => void
+  signUp: (form: SignUpInput) => void
+  signOut: () => void
+  setAuthenticated: () => void
+}
