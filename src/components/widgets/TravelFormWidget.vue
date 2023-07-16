@@ -4,6 +4,14 @@ import inputWidget from '@/components/widgets/InputWidget.vue'
 import SelectInputWidget from './SelectInputWidget.vue'
 import axios from 'axios'
 
+defineProps({
+  isDialog: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
+})
+
 const timeout = ref(0)
 const options = ref([] as { id: number; name: string }[])
 const destination = ref({
@@ -86,10 +94,20 @@ function submitForm(event: Event) {
 </script>
 <template>
   <section class="text-gray-600 py-4">
-    <h1 class="text-center mb-4 font-extrabold text-2xl">Préparez votre voyage dès maintenant !</h1>
+    <h1
+      class="text-center mb-4 font-extrabold text-2xl pb-4"
+      :class="isDialog ? 'hidden' : 'block'"
+    >
+      Préparez votre voyage dès maintenant !
+    </h1>
     <form
       @submit="submitForm"
       class="flex flex-col gap-y-6 px-10 items-center lg:flex-row lg:justify-center lg:gap-x-4 lg:h-24"
+      :class="
+        isDialog
+          ? 'lg:flex-col lg:gap-y-8 lg:h-auto'
+          : 'lg:flex-row lg:justify-center lg:gap-x-4 lg:h-24'
+      "
     >
       <SelectInputWidget
         :label="destination.label"
@@ -118,6 +136,7 @@ function submitForm(event: Event) {
         id="submit"
         type="submit"
         class="btn btn-primary w-full lg:w-1/6 btn-md"
+        :class="isDialog ? 'lg:w-full' : 'lg:w-1/6'"
         aria-label="Créer mon voyage"
       >
         Créer mon voyage
