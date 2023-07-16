@@ -85,7 +85,7 @@ function submitForm(event: Event) {
 }
 </script>
 <template>
-  <section class="bg-white text-gray-600 py-4">
+  <section class="text-gray-600 py-4">
     <h1 class="text-center mb-4 font-extrabold text-2xl">Préparez votre voyage dès maintenant !</h1>
     <form
       @submit="submitForm"
