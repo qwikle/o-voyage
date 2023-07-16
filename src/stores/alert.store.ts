@@ -1,10 +1,9 @@
-import { set } from '@vueuse/core'
 import { defineStore } from 'pinia'
 
 export const useAlertStore = defineStore('alert', {
   state: () => ({
     message: '',
-    type: '',
+    type: 'info' as AlertType,
     show: false
   }),
   actions: {
@@ -20,7 +19,7 @@ export const useAlertStore = defineStore('alert', {
       setTimeout(() => {
         this.show = false
         this.message = ''
-        this.type = ''
+        this.type = 'info'
       }, 3000)
     }
   }
@@ -28,5 +27,15 @@ export const useAlertStore = defineStore('alert', {
 
 export interface ShowAlert {
   message: string
-  type: 'success' | 'error' | 'warning' | 'info'
+  type: AlertType
+}
+
+type AlertType = 'success' | 'error' | 'warning' | 'info'
+
+export interface AlertStore {
+  message: string
+  type: AlertType
+  show: boolean
+  showAlert: (alert: ShowAlert) => void
+  hideAlert: () => void
 }
