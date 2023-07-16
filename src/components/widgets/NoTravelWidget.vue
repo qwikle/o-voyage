@@ -6,7 +6,11 @@ import departing from '@/assets/undraw/departing.svg'
     <figcaption class="absolute text-xs top-24 lg:text-lg font-bold italic lg:top-28 left-0">
       Vous n'avez pas encore de voyage
     </figcaption>
-    <img :src="departing" alt="" class="" />
+    <img
+      :src="departing"
+      alt="femme tenant son baggage"
+      aria-describedby="femme avec son bagage prête à voyager"
+    />
   </figure>
 </template>
 <style scoped></style>
