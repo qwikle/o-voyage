@@ -88,9 +88,7 @@ async function getOptions(event: InputEvent) {
   }, 500)
 }
 
-function submitForm(event: Event) {
-  event.preventDefault()
-}
+defineEmits(['submit'])
 </script>
 <template>
   <section class="text-gray-600 py-4">
@@ -101,7 +99,15 @@ function submitForm(event: Event) {
       Préparez votre voyage dès maintenant !
     </h1>
     <form
-      @submit="submitForm"
+      @submit.prevent="
+        $emit('submit', {
+          departureDate: forms[0].value,
+          arrivalDate: forms[1].value,
+          numbersOfTravelers: forms[2].value,
+          title: forms[3].value,
+          destination: destination.value
+        })
+      "
       class="flex flex-col gap-y-6 px-10 items-center lg:flex-row lg:justify-center lg:gap-x-4 lg:h-24"
       :class="
         isDialog
