@@ -1,12 +1,14 @@
 import 'pinia'
 import type { Router } from 'vue-router'
-import { useAlertStore } from './alert.store'
 import { AxiosInstance } from 'axios'
+import type { AlertStore } from './stores/alert.store'
+import type { AuthStore } from './stores/auth.store'
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
     $router: Router
-    $alert: ReturnType<typeof useAlertStore>
+    $alert: AlertStore
+    $auth: AuthStore
     $axios: AxiosInstance
   }
 }
