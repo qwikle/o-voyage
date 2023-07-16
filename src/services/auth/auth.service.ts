@@ -1,13 +1,7 @@
-import apiService, { type ApiInterface } from '../api/api.service'
 import type { User } from '@/models'
+import { ClientService } from '../api/client.service'
 
-class AuthService {
-  client: ApiInterface
-
-  constructor(client: ApiInterface) {
-    this.client = client
-  }
-
+class AuthService extends ClientService {
   /**
    * @description Sign in user
    * @param signInInput { email: string; password: string }
@@ -118,4 +112,4 @@ export interface SignUpInput {
   lastname: string
 }
 
-export default new AuthService(apiService)
+export default new AuthService()
