@@ -4,6 +4,7 @@ import { PlusIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
 import DialogComponent from '@/components/DialogComponent.vue'
 import TravelFormWidget from '@/components/widgets/TravelFormWidget.vue'
+import NoTravelWidget from '@/components/widgets/NoTravelWidget.vue'
 useHead({
   title: 'Mes voyages',
   meta: [
@@ -38,6 +39,7 @@ function setIsOpen(value: boolean) {
     <DialogComponent :show="isOpen" title="Créer un voyage" @close="setIsOpen">
       <TravelFormWidget isDialog />
     </DialogComponent>
+    <NoTravelWidget />
   </div>
 </template>
 <style scoped></style>
