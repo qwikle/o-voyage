@@ -1,8 +1,9 @@
 import { useAuthStore } from '@/stores/auth.store'
+import apiService from '@/services/api/api.service'
 import jwtDecode from 'jwt-decode'
-export function isAuth() {
+export async function isAuth() {
   const authStore = useAuthStore()
-  if (!authStore.isAuthenticated && checkAuth()) {
+  if (!authStore.isAuthenticated && (await checkAuth())) {
     authStore.setAuthenticated()
   }
   return authStore.isAuthenticated
@@ -27,7 +28,7 @@ function decodeTokens(
   }
 }
 
-function checkAuth() {
+async function checkAuth() {
   const tokens = getTokens()
   if (tokens) {
     const { accessToken, refreshToken } = tokens
@@ -36,9 +37,9 @@ function checkAuth() {
       if (refreshToken.exp < now) {
         return false
       }
-      return true
+      return await apiService.refreshToken()
     }
-    return true
+    return apiService.refreshToken()
   }
   return false
 }

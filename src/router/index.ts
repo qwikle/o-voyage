@@ -43,8 +43,8 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to) => {
-  const authenticated = isAuth()
+router.beforeEach(async (to) => {
+  const authenticated = await isAuth()
   if (to.meta.requiresAuth) {
     if (!authenticated) {
       return { name: 'Signin' }
