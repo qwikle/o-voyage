@@ -38,7 +38,7 @@ function setIsOpen(value: boolean) {
     >
       <PlusIcon class="w-8 h-8" />
     </button>
-    <button class="self-end btn btn-sm btn-primary hidden" @click="setIsOpen(true)">
+    <button class="self-end btn btn-sm btn-primary hidden lg:block" @click="setIsOpen(true)">
       Créer un voyage
     </button>
     <TransitionRoot :show="isOpen" as="template">
