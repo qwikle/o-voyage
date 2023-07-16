@@ -60,10 +60,10 @@ class ApiService implements ApiInterface {
    * @description Refresh token
    * @returns  { boolean }
    * */
-  private async refreshToken(): Promise<boolean> {
+  public async refreshToken(): Promise<boolean> {
     const refreshToken = localStorage.getItem('refreshToken')
     try {
-      const { data } = await this.axios.post('', {
+      const response = (await this.axios.post('', {
         query: `
         mutation {
             refreshToken(refreshToken: "${refreshToken}") {
@@ -72,9 +72,11 @@ class ApiService implements ApiInterface {
             }
         }
         `
-      })
-      this.setAccessToken(data.data.refreshToken.accessToken)
-      this.setRefreshToken(data.data.refreshToken.refreshToken)
+      })) as unknown as {
+        refreshToken: { accessToken: string; refreshToken: string }
+      }
+      this.setAccessToken(response.refreshToken.accessToken)
+      this.setRefreshToken(response.refreshToken.refreshToken)
       return true
     } catch (_) {
       this.removeTokens()
