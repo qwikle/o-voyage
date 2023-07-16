@@ -9,12 +9,14 @@ import router from './router'
 import type { Router } from 'vue-router'
 import { useAlertStore } from './stores/alert.store'
 import { createHead } from '@unhead/vue'
+import { useAuthStore } from './stores/auth.store'
 
 const pinia = createPinia()
 
 pinia.use(({ store }) => {
   store.$router = markRaw(router as Router)
   store.$alert = useAlertStore()
+  store.$auth = useAuthStore()
   store.$axios = markRaw(axios)
 })
 
