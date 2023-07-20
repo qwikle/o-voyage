@@ -11,7 +11,6 @@ import type { Travel } from '@/models'
 import CountryWidget from '@/components/widgets/CountryWidget.vue'
 import { TravelInput, type ITravelInput } from '@/models'
 import StatusWidget from '@/components/widgets/StatusWidget.vue'
-import ProgressWidget from '@/components/widgets/ProgressWidget.vue'
 useHead({
   title: 'Mes voyages',
   meta: [
