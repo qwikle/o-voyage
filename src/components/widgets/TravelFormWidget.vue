@@ -2,8 +2,7 @@
 import { ref } from 'vue'
 import inputWidget from '@/components/widgets/InputWidget.vue'
 import SelectInputWidget from './SelectInputWidget.vue'
-import axios from 'axios'
-
+import countryData from '@/datas/countries.json'
 defineProps({
   isDialog: {
     type: Boolean,
@@ -13,7 +12,7 @@ defineProps({
 })
 
 const timeout = ref(0)
-const options = ref([] as { id: number; name: string }[])
+const options = ref([] as { name: string }[])
 const destination = ref({
   name: 'to',
   value: '',
@@ -48,7 +47,7 @@ const forms = ref([
     isPassword: false
   },
   {
-    name: 'numbersOfTravelers',
+    name: 'numberOfTravelers',
     label: 'Nombre de voyageurs',
     type: 'number',
     value: '',
@@ -57,6 +56,16 @@ const forms = ref([
     disabled: false,
     autocomplete: 'off',
     isPassword: false
+  },
+  {
+    name: 'budget',
+    label: 'Budget',
+    type: 'number',
+    value: '',
+    placeholder: 'Entrez votre budget',
+    required: true,
+    disabled: false,
+    autocomplete: 'off'
   },
   {
     name: 'title',
@@ -78,14 +87,20 @@ async function getOptions(event: InputEvent) {
     return
   }
   timeout.value = setTimeout(async () => {
-    const { data } = await axios.get(
-      `https://api-adresse.data.gouv.fr/search/?q=${destination.value.value}&type=municipality`
-    )
-    options.value = data.features.map((feature: any) => ({
-      id: feature.properties.id,
-      name: feature.properties.label
-    }))
+    options.value = countryData
+      .filter((country) =>
+        country.name.toLowerCase().includes(destination.value.value.toLowerCase())
+      )
+      .map((country) => ({
+        name: country.name
+      }))
   }, 500)
+}
+
+function mapForm() {
+  return forms.value.map((form) => ({
+    [form.name]: form.value
+  }))
 }
 
 defineEmits(['submit'])
@@ -101,11 +116,8 @@ defineEmits(['submit'])
     <form
       @submit.prevent="
         $emit('submit', {
-          departureDate: forms[0].value,
-          arrivalDate: forms[1].value,
-          numbersOfTravelers: forms[2].value,
-          title: forms[3].value,
-          destination: destination.value
+          to: destination.value,
+          ...Object.assign({}, ...mapForm())
         })
       "
       class="flex flex-col gap-y-6 px-10 items-center lg:flex-row lg:justify-center lg:gap-x-4 lg:h-24"
