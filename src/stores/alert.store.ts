@@ -13,7 +13,7 @@ export const useAlertStore = defineStore('alert', {
         this.type = type
         this.show = true
         this.hideAlert()
-      }, 850)
+      }, 10)
     },
     hideAlert() {
       setTimeout(() => {
