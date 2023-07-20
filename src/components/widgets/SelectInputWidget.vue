@@ -27,12 +27,15 @@ defineProps({
   }
 })
 defineEmits(['update:modelValue', 'change'])
+interface IOption {
+  name: string
+}
 </script>
 <template>
   <div class="relative w-full">
     <Combobox
       :modelValue="value"
-      @update:modelValue="(value) => $emit('update:modelValue', value)"
+      @update:modelValue="(value) => $emit('update:modelValue', value.name)"
       :by="by"
     >
       <ComboboxLabel :for="name" class="self-start text-sm font-semibold absolute -top-5">
@@ -42,9 +45,10 @@ defineEmits(['update:modelValue', 'change'])
         @change="$emit('change', $event)"
         class="h-12 px-2 placeholder:text-sm outline-none text-sm bg-slate-100 rounded-lg w-full focus:ring-2 focus:ring-primary"
         :id="name"
-        :displayValue="(value) => value.name"
+        :displayValue="(value) => (value as IOption).name  "
         :placeholder="placeholder"
         :autocomplete="autocomplete"
+        :required="required"
       />
       <XyzTransition xyz="fade duration-2">
         <ComboboxOptions
