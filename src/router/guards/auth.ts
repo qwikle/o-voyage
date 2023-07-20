@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode'
 export async function isAuth() {
   const authStore = useAuthStore()
   if (!authStore.isAuthenticated && (await checkAuth())) {
-    authStore.setAuthenticated()
+    await authStore.setAuthenticated()
   }
   return authStore.isAuthenticated
 }
