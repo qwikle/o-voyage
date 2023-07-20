@@ -27,7 +27,7 @@ const message = computed(() => {
     case 'finished':
       return 'Terminé'
     case 'ongoing':
-      return 'A venir'
+      return 'À venir'
     default:
       return 'Inconnu'
   }
