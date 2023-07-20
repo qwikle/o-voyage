@@ -1,6 +1,6 @@
-import travelService, { type TravelInput } from '@/services/travel/travel.service'
+import travelService from '@/services/travel/travel.service'
 import { defineStore } from 'pinia'
-import type { Travel } from '@/models'
+import type { Travel, TravelInput } from '@/models'
 
 export const useTravelStore = defineStore('travel', {
   state: () => ({
