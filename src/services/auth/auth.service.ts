@@ -97,6 +97,26 @@ class AuthService extends ClientService {
     this.client.removeTokens()
     return true
   }
+
+  /**
+   * @description Get user
+   * @returns  { User }
+   * */
+  async getUser(): Promise<User> {
+    const { me } = (await this.client.query({
+      query: `
+        query Query {
+          me {
+            id
+            email
+            firstname
+            lastname
+          }
+        }
+      `
+    })) as unknown as { me: User }
+    return me
+  }
 }
 
 export interface SignInInput {
