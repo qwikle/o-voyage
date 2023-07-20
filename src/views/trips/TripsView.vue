@@ -7,7 +7,7 @@ import DialogComponent from '@/components/DialogComponent.vue'
 import TravelFormWidget from '@/components/widgets/TravelFormWidget.vue'
 import NoTravelWidget from '@/components/widgets/NoTravelWidget.vue'
 import { useTravelStore } from '@/stores/travel.store'
-import type { Travel } from '@/models'
+import type { ITravel } from '@/models'
 import CountryWidget from '@/components/widgets/CountryWidget.vue'
 import { TravelInput, type ITravelInput } from '@/models'
 import StatusWidget from '@/components/widgets/StatusWidget.vue'
@@ -28,7 +28,7 @@ const isOpen = ref(false)
 function setIsOpen(value: boolean) {
   isOpen.value = value
 }
-const travels = computed<Travel[]>(() => {
+const travels = computed<ITravel[]>(() => {
   return travelStore.travels
 })
 const travelStore = useTravelStore()

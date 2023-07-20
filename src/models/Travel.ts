@@ -14,6 +14,8 @@ export interface ITravel {
   invitationLink?: string
   travelers: Traveler[]
   status: string
+  departureDateFormatted: string
+  arrivalDateFormatted: string
 }
 
 export class Travel implements ITravel {
