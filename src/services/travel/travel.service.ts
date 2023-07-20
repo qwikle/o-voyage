@@ -1,8 +1,9 @@
-import type { Travel } from '@/models'
+import { Travel, type ITravel } from '@/models'
 import { ClientService } from '../api/client.service'
+import type { TravelInput } from '@/models/inputs/travel.input'
 
 class TravelService extends ClientService {
-  async getTravelList(): Promise<Travel[]> {
+  async getTravelList(): Promise<ITravel[]> {
     const { me } = (await this.client.query({
       query: `query Travel {
   me {
@@ -18,15 +19,21 @@ class TravelService extends ClientService {
       numberOfTravelers
       organizerId
       invitationLink
+      travelers {
+        id
+        firstname
+        lastname
+        email
+      }
     }
   }
 }`,
       variables: {}
-    })) as unknown as { me: { travels: Travel[] } }
-    return me.travels
+    })) as unknown as { me: { travels: ITravel[] } }
+    return me.travels.map((travel) => new Travel(travel))
   }
 
-  async createTravel(travel: TravelInput): Promise<Travel> {
+  async createTravel(travel: TravelInput): Promise<ITravel> {
     const { createTravel } = (await this.client.mutation({
       query: `mutation Mutation($createTravelInput: CreateTravelInput!) {
   createTravel(createTravelInput: $createTravelInput) {
@@ -40,23 +47,18 @@ class TravelService extends ClientService {
     budget
     numberOfTravelers
     invitationLink
+    travelers {
+      id
+      firstname
+      lastname
+      email
+    }
   }
 }`,
       variables: { createTravelInput: travel }
-    })) as unknown as { createTravel: Travel }
-    return createTravel
+    })) as unknown as { createTravel: ITravel }
+    return new Travel(createTravel)
   }
-}
-
-export interface TravelInput {
-  title: string
-  from: string
-  to: string
-  departureDate: string
-  arrivalDate: string
-  budget?: number
-  numberOfTravelers: number
-  organizerId?: number
 }
 
 export default new TravelService()
