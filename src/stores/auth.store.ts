@@ -17,7 +17,7 @@ export const useAuthStore = defineStore('auth', {
           type: 'success'
         })
         this.isAuthenticated = true
-        this.$router.push({ name: 'Home' })
+        this.$router.push((this.$route.query.redirect as string) || { name: 'Trips' })
       } catch (error) {
         this.$alert.showAlert({
           // @ts-ignore
@@ -27,7 +27,8 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    setAuthenticated() {
+    async setAuthenticated() {
+      this.user = await authService.getUser()
       this.isAuthenticated = true
     },
 
