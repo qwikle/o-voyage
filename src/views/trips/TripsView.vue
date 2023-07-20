@@ -62,7 +62,7 @@ async function createTravel(travel: ITravelInput) {
       <article
         v-for="travel in travels"
         :key="travel.id"
-        class="shadow bg-slate-800 rounded-xl flex flex-col w-96 h-[28rem]"
+        class="shadow bg-slate-800 rounded-xl flex flex-col w-96 h-[28rem] transition-all transform hover:scale-105 duration-300 ease-in-out"
       >
         <CountryWidget :name="travel.to" class="rounded-t-lg w-full h-48 object-cover" />
         <div class="p-4 text-white font-bold h-full">
