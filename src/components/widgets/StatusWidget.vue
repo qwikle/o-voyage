@@ -12,7 +12,7 @@ const statusColor = computed(() => {
     case 'pending':
       return 'bg-warning'
     case 'finished':
-      return 'bg-primary'
+      return 'bg-info'
     case 'ongoing':
       return 'bg-success'
     default:
