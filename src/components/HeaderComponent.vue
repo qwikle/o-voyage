@@ -35,7 +35,7 @@ const menus = computed(() => {
 })
 </script>
 <template>
-  <header class="h-14 bg-slate-800 flex items-center justify-between px-5">
+  <header class="h-20 bg-slate-800 flex items-center justify-between px-5">
     <div class="flex items-center gap-x-4 text-white">
       <RouterLink to="/">
         <img
@@ -50,14 +50,14 @@ const menus = computed(() => {
             <button
               v-if="menu.path === '/signout'"
               @click="authStore.signOut"
-              class="flex items-center py-1 px-2 rounded hover:bg-white hover:text-slate-800"
+              class="flex items-center text-lg font-semibold py-1 px-2 rounded hover:bg-white hover:text-slate-800"
             >
               {{ menu.label }}
             </button>
             <RouterLink
               v-else
               :to="menu.path"
-              class="flex items-center py-1 px-2 rounded hover:bg-white hover:text-slate-800"
+              class="flex items-center text-lg font-semibold py-1 px-2 rounded hover:bg-white hover:text-slate-800"
               active-class="bg-white text-slate-800"
               >{{ menu.label }}</RouterLink
             >
