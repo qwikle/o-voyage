@@ -33,6 +33,10 @@ const departureArrivalDate = computed(() => {
   ]
 })
 
+const to = computed(() => {
+  return `/trips/${props.travel.slug}`
+})
+
 function deleteTravel() {
   travelStore.deleteTravel(props.travel.id)
 }
@@ -71,7 +75,7 @@ function setIsOpen(value: boolean) {
           </div>
         </div>
         <div class="w-full flex items-center justify-between py-6">
-          <button class="btn btn-sm btn-base">consulter</button>
+          <RouterLink :to="to" class="btn btn-sm btn-base">consulter</RouterLink>
           <button v-if="canDelete" @click="setIsOpen(true)" class="btn btn-sm btn-base">
             supprimer
           </button>
