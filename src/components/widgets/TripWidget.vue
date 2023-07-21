@@ -13,11 +13,26 @@ const props = defineProps({
     required: true
   }
 })
+const title = computed(() => {
+  return props.travel.title
+})
 const authStore = useAuthStore()
 const travelStore = useTravelStore()
 const canDelete = computed(() => {
   return authStore.user?.id === props.travel.organizerId
 })
+
+const fromTo = computed(() => {
+  return [props.travel.from, props.travel.to]
+})
+
+const departureArrivalDate = computed(() => {
+  return [
+    { prepend: 'Du', text: props.travel.departureDateFormatted },
+    { prepend: 'Au', text: props.travel.arrivalDateFormatted }
+  ]
+})
+
 function deleteTravel() {
   travelStore.deleteTravel(props.travel.id)
 }
@@ -28,33 +43,24 @@ function setIsOpen(value: boolean) {
 }
 </script>
 <template>
-  <article
-    class="shadow bg-slate-800 rounded-xl flex flex-col w-96 h-[28rem] transition-all transform hover:scale-105 duration-300 ease-in-out"
-  >
-    <CountryWidget :name="travel.to" class="rounded-t-lg w-full h-48 object-cover" />
-    <div class="p-4 text-white font-bold h-full">
-      <h2 class="text-center font-extrabold text-xl">{{ travel.title }}</h2>
-      <div class="flex flex-col gap-2">
-        <StatusWidget :status="travel.status" />
-        <div class="flex justify-around">
-          <p>
-            <span class="font-bold">Du</span> :
-            <span class="italic">{{ travel.departureDateFormatted }}</span>
-          </p>
-          <p>
-            <span class="font-bold">Au</span> :
-            <span class="italic"> {{ travel.arrivalDateFormatted }}</span>
+  <article class="shadow rounded-xl flex flex-col w-96 h-64 relative">
+    <CountryWidget :name="travel.to" class="w-full h-full object-cover absolute z-0 rounded-xl" />
+    <div class="p-4 text-slate-200 bg-slate-800/60 font-bold h-full backdrop-blur-sm rounded-xl">
+      <h2 class="font-extrabold text-xl">{{ travel.title }}</h2>
+      <div class="flex items-start flex-col gap-2">
+        <StatusWidget :status="travel.status" class="self-end" />
+        <div class="w-full self-center flex justify-between">
+          <p v-for="(element, index) in departureArrivalDate" :key="index">
+            <span class="font-bold">{{ element.prepend }}</span> :
+            <span class="text-lg">{{ element.text }}</span>
           </p>
         </div>
-        <div class="flex justify-around">
-          <p>
-            <span class="italic">{{ travel.from }}</span>
-          </p>
-          <p>
-            <span class="italic"> {{ travel.to }}</span>
+        <div class="w-full flex justify-between">
+          <p v-for="(element, index) in fromTo" :key="index">
+            <span class="text-lg">{{ element }}</span>
           </p>
         </div>
-        <div class="flex items-center justify-between">
+        <div class="w-full flex items-center justify-between">
           <div class="flex items-center gap-2">
             <BanknotesIcon class="w-8 h-8" />
             <p>{{ travel.budget }} €</p>
@@ -64,15 +70,15 @@ function setIsOpen(value: boolean) {
             <p>{{ travel.numberOfTravelers }}</p>
           </div>
         </div>
-        <div class="flex items-center justify-between py-6">
-          <button class="btn btn-sm btn-info">consulter</button>
-          <button v-if="canDelete" @click="setIsOpen(true)" class="btn btn-sm btn-error">
+        <div class="w-full flex items-center justify-between py-6">
+          <button class="btn btn-sm btn-base">consulter</button>
+          <button v-if="canDelete" @click="setIsOpen(true)" class="btn btn-sm btn-base">
             supprimer
           </button>
         </div>
       </div>
     </div>
-    <DialogComponent :show="isOpen" title="Supprimer Voyage" @close="setIsOpen">
+    <DialogComponent :show="isOpen" :title="title" @close="setIsOpen">
       <p class="p-2">
         Êtes-vous sûr de vouloir supprimer le voyage
         <span class="font-bold">{{ travel.title }}</span>
