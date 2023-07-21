@@ -3,9 +3,10 @@ import { BanknotesIcon, UserGroupIcon } from '@heroicons/vue/24/outline'
 import CountryWidget from '@/components/widgets/CountryWidget.vue'
 import StatusWidget from '@/components/widgets/StatusWidget.vue'
 import type { ITravel } from '@/models'
-import { type PropType, computed } from 'vue'
+import { type PropType, computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.store'
 import { useTravelStore } from '@/stores/travel.store'
+import DialogComponent from '../DialogComponent.vue'
 const props = defineProps({
   travel: {
     type: Object as PropType<ITravel>,
@@ -19,6 +20,11 @@ const canDelete = computed(() => {
 })
 function deleteTravel() {
   travelStore.deleteTravel(props.travel.id)
+}
+const isOpen = ref(false)
+
+function setIsOpen(value: boolean) {
+  isOpen.value = value
 }
 </script>
 <template>
@@ -60,12 +66,23 @@ function deleteTravel() {
         </div>
         <div class="flex items-center justify-between py-6">
           <button class="btn btn-sm btn-info">consulter</button>
-          <button v-if="canDelete" @click="deleteTravel" class="btn btn-sm btn-error">
+          <button v-if="canDelete" @click="setIsOpen(true)" class="btn btn-sm btn-error">
             supprimer
           </button>
         </div>
       </div>
     </div>
+    <DialogComponent :show="isOpen" title="Supprimer Voyage" @close="setIsOpen">
+      <p class="p-2">
+        Êtes-vous sûr de vouloir supprimer le voyage
+        <span class="font-bold">{{ travel.title }}</span>
+        ?
+      </p>
+      <div class="flex justify-end gap-2 p-4">
+        <button class="btn btn-sm btn-error" @click="deleteTravel">Supprimer</button>
+        <button class="btn btn-sm btn-base" @click="setIsOpen(false)">Annuler</button>
+      </div>
+    </DialogComponent>
   </article>
 </template>
 <style scoped></style>
