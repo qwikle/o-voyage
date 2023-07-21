@@ -103,7 +103,7 @@ function mapForm() {
   }))
 }
 
-defineEmits(['submit'])
+defineEmits(['submit', 'close'])
 </script>
 <template>
   <section class="text-gray-600 py-4">
@@ -150,15 +150,25 @@ defineEmits(['submit'])
         :disabled="form.disabled"
         :autocomplete="form.autocomplete"
       />
-      <button
-        id="submit"
-        type="submit"
-        class="btn btn-primary w-full lg:w-1/6 btn-md"
-        :class="isDialog ? 'lg:w-full' : 'lg:w-1/6'"
-        aria-label="Créer mon voyage"
-      >
-        Créer mon voyage
-      </button>
+      <div class="flex gap-4 flex-col lg:flex-row-reverse lg:justify-between w-full">
+        <button
+          id="submit"
+          type="submit"
+          class="btn btn-primary btn-md"
+          :class="isDialog ? 'lg:w-1/2' : 'lg:w-full'"
+          aria-label="Créer mon voyage"
+        >
+          Créer mon voyage
+        </button>
+        <button
+          type="button"
+          v-if="isDialog"
+          @click="$emit('close', $event)"
+          class="btn btn-base w-full lg:w-1/2"
+        >
+          annuler
+        </button>
+      </div>
     </form>
   </section>
 </template>
