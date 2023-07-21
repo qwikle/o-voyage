@@ -4,7 +4,8 @@ import type { ITravel, TravelInput } from '@/models'
 
 export const useTravelStore = defineStore('travel', {
   state: () => ({
-    travels: [] as ITravel[]
+    travels: [] as ITravel[],
+    travel: null as ITravel | null
   }),
   actions: {
     async getTravels() {
@@ -26,6 +27,10 @@ export const useTravelStore = defineStore('travel', {
           type: 'error'
         })
       }
+    },
+
+    async getTravelBySlug(slug: string) {
+      this.travel = await travelService.getTravelBySlug(slug)
     },
 
     async deleteTravel(travelId: number) {

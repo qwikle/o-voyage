@@ -61,6 +61,58 @@ class TravelService extends ClientService {
     return new Travel(createTravel)
   }
 
+  async getTravelBySlug(slug: string): Promise<ITravel | null> {
+    const { travelBySlug } = (await this.client.query({
+      query: `
+      query Query($slug: String!) {
+  travelBySlug(slug: $slug) {
+    id
+    title
+    slug
+    from
+    to
+    departureDate
+    arrivalDate
+    budget
+    numberOfTravelers
+    organizerId
+    travelers {
+      id
+      firstname
+      lastname
+      email
+    }
+    organizer {
+      id
+      firstname
+      lastname
+      email
+    }
+    invitationLink
+    activities {
+      id
+      name
+      price
+      location
+      members
+      date
+      time
+      categoryId
+      category {
+        id
+        name
+      }
+    }
+  }
+}
+      `,
+      variables: { slug }
+    })) as unknown as {
+      travelBySlug: ITravel
+    }
+    return travelBySlug ? new Travel(travelBySlug) : null
+  }
+
   async deleteTravel(travelId: number): Promise<boolean> {
     const { removeTravel } = (await this.client.mutation({
       query: `mutation Mutation($removeTravelId: Int!) {
