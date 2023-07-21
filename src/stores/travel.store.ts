@@ -26,6 +26,23 @@ export const useTravelStore = defineStore('travel', {
           type: 'error'
         })
       }
+    },
+
+    async deleteTravel(travelId: number) {
+      try {
+        await travelService.deleteTravel(travelId)
+        this.travels = this.travels.filter((travel) => travel.id !== travelId)
+        this.$alert.showAlert({
+          message: 'Le voyage a bien été supprimé',
+          type: 'success'
+        })
+      } catch (error) {
+        this.$alert.showAlert({
+          // @ts-ignore
+          message: error.message,
+          type: 'error'
+        })
+      }
     }
   }
 })

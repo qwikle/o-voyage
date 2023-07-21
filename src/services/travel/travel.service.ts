@@ -47,6 +47,7 @@ class TravelService extends ClientService {
     budget
     numberOfTravelers
     invitationLink
+    organizerId
     travelers {
       id
       firstname
@@ -58,6 +59,16 @@ class TravelService extends ClientService {
       variables: { createTravelInput: travel }
     })) as unknown as { createTravel: ITravel }
     return new Travel(createTravel)
+  }
+
+  async deleteTravel(travelId: number): Promise<boolean> {
+    const { removeTravel } = (await this.client.mutation({
+      query: `mutation Mutation($removeTravelId: Int!) {
+    removeTravel(id: $removeTravelId)
+  }`,
+      variables: { removeTravelId: travelId }
+    })) as unknown as { removeTravel: boolean }
+    return removeTravel
   }
 }
 
