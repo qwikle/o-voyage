@@ -41,12 +41,19 @@ const router = createRouter({
       }
     },
     {
-      path: '/trips/:id',
+      path: '/trips/:slug',
       name: 'Trip',
       component: () => import('../views/trips/TripView.vue'),
       meta: {
         onlyGuest: false,
         requiresAuth: true
+      },
+      beforeEnter: async (to) => {
+        const { useTravelStore } = await import('@/stores/travel.store')
+        await useTravelStore().getTravelBySlug(to.params.slug as string)
+        if (!useTravelStore().travel) {
+          return { name: 'NotFound' }
+        }
       }
     },
     {
@@ -57,6 +64,11 @@ const router = createRouter({
         onlyGuest: false,
         requiresAuth: true
       }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('../views/errors/NotFoundView.vue')
     }
   ]
 })
