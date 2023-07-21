@@ -45,12 +45,16 @@ async function createTravel(travel: ITravelInput) {
     <h1 class="text-center text-2xl font-bold text-slate-700">Mes Voyages</h1>
     <button
       class="self-end btn btn-circle btn-primary lg:hidden"
-      aria-label="add"
+      aria-label="créer un voyage"
       @click="setIsOpen(true)"
     >
       <PlusIcon class="w-8 h-8" />
     </button>
-    <button class="self-end btn btn-md btn-primary hidden lg:block" @click="setIsOpen(true)">
+    <button
+      class="self-end btn btn-md btn-primary hidden lg:block"
+      @click="setIsOpen(true)"
+      aria-label="créer un voyage"
+    >
       Créer un voyage
     </button>
     <DialogComponent :show="isOpen" title="Créer un voyage" @close="setIsOpen">

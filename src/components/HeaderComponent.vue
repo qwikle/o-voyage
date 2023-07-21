@@ -48,6 +48,7 @@ const menus = computed(() => {
         <ul class="flex gap-x-2">
           <li v-for="menu in menus" :key="menu.label">
             <button
+              aria-label="se déconnecter"
               v-if="menu.path === '/signout'"
               @click="authStore.signOut"
               class="flex items-center text-lg font-semibold py-1 px-2 rounded hover:bg-white hover:text-slate-800"
@@ -66,7 +67,7 @@ const menus = computed(() => {
       </nav>
     </div>
     <div class="flex items-center gap-x-2">
-      <button class="h-10 w-10 flex hover:rounded group">
+      <button aria-label="ouvrir le menu" class="h-10 w-10 flex hover:rounded group">
         <Bars3BottomRightIcon
           class="text-white h-full w-full group-hover:bg-slate-500 rounded group-active:bg-slate-600 lg:hidden"
         />

@@ -75,8 +75,15 @@ function setIsOpen(value: boolean) {
           </div>
         </div>
         <div class="w-full flex items-center justify-between py-6">
-          <RouterLink :to="to" class="btn btn-sm btn-base">consulter</RouterLink>
-          <button v-if="canDelete" @click="setIsOpen(true)" class="btn btn-sm btn-base">
+          <RouterLink :to="to" class="btn btn-sm btn-base" aria-label="consulter le voyage"
+            >consulter</RouterLink
+          >
+          <button
+            v-if="canDelete"
+            @click="setIsOpen(true)"
+            class="btn btn-sm btn-base"
+            aria-label="suprimer le voyage"
+          >
             supprimer
           </button>
         </div>
@@ -89,8 +96,16 @@ function setIsOpen(value: boolean) {
         ?
       </p>
       <div class="flex justify-end gap-2 p-4">
-        <button class="btn btn-sm btn-error" @click="deleteTravel">Supprimer</button>
-        <button class="btn btn-sm btn-base" @click="setIsOpen(false)">Annuler</button>
+        <button
+          class="btn btn-sm btn-error"
+          @click="deleteTravel"
+          aria-label="supperimer le voyage"
+        >
+          Supprimer
+        </button>
+        <button class="btn btn-sm btn-base" @click="setIsOpen(false)" aria-label="annuler">
+          Annuler
+        </button>
       </div>
     </DialogComponent>
   </article>
