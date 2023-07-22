@@ -7,16 +7,16 @@ const { message, show, type } = storeToRefs(useAlertStore())
 <template>
   <XyzTransition xyz="fade right-100%">
     <div
-      class="absolute w-64 h-16 shadow rounded top-16 right-3 flex flex-col p-4 text-sm"
+      class="alert text-gray-800 absolute w-64 h-16 top-24 right-3"
       :class="{
-        'bg-green-100 text-green-800': type === 'success',
-        'bg-red-100 text-red-800': type === 'error',
-        'bg-yellow-100 text-yellow-800': type === 'warning',
-        'bg-blue-100 text-blue-800': type === 'info'
+        'alert-success': type === 'success',
+        'alert-error': type === 'error',
+        'alert-warning': type === 'warning',
+        'alert-info': type === 'info'
       }"
       v-if="show"
     >
-      <p class="font-medium">{{ message }}</p>
+      <span class="font-medium">{{ message }}</span>
     </div>
   </XyzTransition>
 </template>
