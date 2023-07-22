@@ -45,7 +45,7 @@ async function checkAuth() {
 }
 
 interface JwtToken {
-  id: string
+  id: number
   role?: number
   ip: string
   exp: number
