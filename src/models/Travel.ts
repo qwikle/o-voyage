@@ -1,4 +1,4 @@
-import type { Traveler } from './Traveler'
+import { Traveler, type ITraveler } from './Traveler'
 
 export interface ITravel {
   id: number
@@ -12,8 +12,9 @@ export interface ITravel {
   budget: number
   organizerId: number
   invitationLink?: string
-  travelers: Traveler[]
+  travelers: ITraveler[]
   status: string
+  organizer: ITraveler
   departureDateFormatted: string
   arrivalDateFormatted: string
 }
@@ -30,7 +31,7 @@ export class Travel implements ITravel {
   budget: number
   organizerId: number
   invitationLink?: string | undefined
-  travelers: Traveler[]
+  travelers: ITraveler[]
 
   constructor(travel: ITravel) {
     this.id = travel.id
@@ -44,7 +45,7 @@ export class Travel implements ITravel {
     this.budget = travel.budget
     this.organizerId = travel.organizerId
     this.invitationLink = travel.invitationLink
-    this.travelers = travel.travelers
+    this.travelers = travel.travelers.filter((traveler) => new Traveler(traveler))
   }
 
   get status(): string {
@@ -70,5 +71,13 @@ export class Travel implements ITravel {
   get arrivalDateFormatted(): string {
     const date = new Date(this.arrivalDate)
     return date.toLocaleDateString('fr-FR')
+  }
+
+  get organizer(): ITraveler {
+    const traveler = this.travelers.find(
+      (traveler) => traveler.id === this.organizerId
+    ) as ITraveler
+
+    return new Traveler(traveler)
   }
 }
