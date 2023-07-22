@@ -16,7 +16,7 @@ const { message, show, type } = storeToRefs(useAlertStore())
       }"
       v-if="show"
     >
-      <span class="font-medium">{{ message }}</span>
+      <span>{{ message }}</span>
     </div>
   </XyzTransition>
 </template>
