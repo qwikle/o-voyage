@@ -47,9 +47,15 @@ useHead({
     </CardDashboardWidget>
 
     <CardDashboardWidget title="Budget" icon="BanknotesIcon" color="emerald">
-      <div class="flex flex-col items-end">
-        <p class="text-sm text-gray-500">Budget total: {{ travel.budget }} €</p>
-        <p class="text-sm text-gray-500">Budget restant: 40 €</p>
+      <div class="flex justify-between text-sm lg:text-md font-light">
+        <div class="flex flex-col">
+          <p>Budget total</p>
+          <span class="text-emerald-600 text-center">{{ travel.budget }}€</span>
+        </div>
+        <div class="flex flex-col">
+          <p>Budget restant</p>
+          <span class="text-red-600 text-center">{{ travel.budget }}€</span>
+        </div>
       </div>
     </CardDashboardWidget>
 
