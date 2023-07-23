@@ -61,7 +61,7 @@ useHead({
 
     <CardDashboardWidget title="Voyageurs" icon="UsersIcon" color="violet">
       <div class="flex gap-2 flex-col text-gray-500">
-        <span class="text-xs">Actuellement</span>
+        <span class="text-xs lg:text-sm">Actuellement</span>
         <div class="w-full bg-gray-200 rounded-full">
           <div
             class="bg-violet-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
