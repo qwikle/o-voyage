@@ -1,24 +1,31 @@
 <script setup lang="ts">
 import CountryWidget from '@/components/widgets/CountryWidget.vue'
-import {
-  CalendarDaysIcon,
-  ArrowSmallRightIcon,
-  UserIcon,
-  BanknotesIcon,
-  UsersIcon
-} from '@heroicons/vue/24/outline'
+import { CalendarDaysIcon, ArrowSmallRightIcon } from '@heroicons/vue/24/outline'
 import { useTravelStore } from '@/stores/travel.store'
 import StatusWidget from '@/components/widgets/StatusWidget.vue'
+import CardDashboardWidget from '@/components/widgets/CardDashboardWidget.vue'
+import { useHead } from '@unhead/vue'
+
 const travel = useTravelStore().travel!
+useHead({
+  title: `${travel.title}`,
+  meta: [
+    {
+      name: 'description',
+      content: `Voyage de ${travel.from} à ${travel.to} du ${travel.departureDateFormatted} au ${travel.arrivalDateFormatted}`
+    }
+  ]
+})
 </script>
 <template>
   <aside
-    class="flex flex-col justify-center items-center gap-y-4 lg:flex-row lg:justify-between p-4"
+    class="flex flex-col justify-center items-center gap-y-4 lg:flex-row lg:justify-between p-4 select-none"
   >
-    <div class="h-32 w-52 lg:w-1/6 shadow bg-gray-200 rounded-lg flex">
-      <CountryWidget :name="travel.to" class="w-full h-full object-cover rounded-lg" />
+    <div class="h-32 w-52 shadow bg-gray-200 rounded-lg flex">
+      <CountryWidget :name="travel.to" class="object-cover w-full rounded-lg" />
     </div>
-    <div class="h-32 w-52 lg:w-1/6 shadow bg-gray-50 rounded-lg px-2 flex flex-col gap-y-4">
+
+    <div class="h-32 w-full lg:w-1/5 shadow bg-gray-50 rounded-lg px-2 flex flex-col gap-y-4">
       <div class="flex justify-between items-center">
         <div class="w-10 h-10 flex justify-center items-center bg-sky-100 rounded-lg mt-3">
           <CalendarDaysIcon class="w-8 h-8 text-sky-400" />
@@ -26,55 +33,41 @@ const travel = useTravelStore().travel!
         <StatusWidget :status="travel.status" />
       </div>
 
-      <div class="flex justify-between items-center">
-        <span class="text-gray-500 text-sm">{{ travel.departureDateFormatted }}</span>
-        <ArrowSmallRightIcon class="w-4 h-4 text-emerald-500" />
-        <span class="text-gray-500 text-sm">{{ travel.arrivalDateFormatted }}</span>
-      </div>
-    </div>
-    <div class="h-32 w-52 lg:w-1/6 shadow bg-gray-50 rounded-lg px-2 flex flex-col gap-y-4">
-      <div class="flex justify-between items-center">
-        <div class="w-10 h-10 flex justify-center items-center bg-orange-100 rounded-lg mt-3">
-          <UserIcon class="w-8 h-8 text-orange-400" />
-        </div>
-        <h3 class="text-sm font-light text-gray-600 bg-orange-100 rounded-2xl px-2">
-          Organisateur
-        </h3>
-      </div>
-      <div class="flex flex-col items-end">
-        <p class="text-sm text-gray-500">{{ travel.organizer.fullname }}</p>
+      <div class="flex justify-between items-cente text-gray-500 text-sm">
+        <span>{{ travel.departureDateFormatted }}</span>
+        <ArrowSmallRightIcon class="w-5 h-5 text-emerald-500" />
+        <span>{{ travel.arrivalDateFormatted }}</span>
       </div>
     </div>
 
-    <div class="h-32 w-52 lg:w-1/6 shadow bg-gray-50 rounded-lg px-2 flex flex-col gap-y-4">
-      <div class="flex justify-between items-center">
-        <div class="w-10 h-10 flex justify-center items-center bg-green-100 rounded-lg mt-3">
-          <BanknotesIcon class="w-8 h-8 text-green-400" />
-        </div>
-        <h3 class="text-sm font-light text-gray-600 bg-green-100 rounded-2xl px-2">Budget</h3>
+    <CardDashboardWidget title="Organisateur" icon="UserIcon" color="orange">
+      <div class="flex flex-col items-center">
+        <p class="text-lg text-gray-500">{{ travel.organizer.fullname }}</p>
       </div>
+    </CardDashboardWidget>
+
+    <CardDashboardWidget title="Budget" icon="BanknotesIcon" color="emerald">
       <div class="flex flex-col items-end">
-        <p class="text-sm text-gray-500">Budget total : {{ travel.budget }} €</p>
-        <p class="text-sm text-gray-500">Budget restant : 25 €</p>
+        <p class="text-sm text-gray-500">Budget total: {{ travel.budget }} €</p>
+        <p class="text-sm text-gray-500">Budget restant: 40 €</p>
       </div>
-    </div>
-    <div class="h-32 w-52 lg:w-1/6 shadow bg-gray-50 rounded-lg px-2 flex flex-col gap-y-4">
-      <div class="flex justify-between items-center">
-        <div class="w-10 h-10 flex justify-center items-center bg-violet-100 rounded-lg mt-3">
-          <UsersIcon class="w-8 h-8 text-violet-400" />
+    </CardDashboardWidget>
+
+    <CardDashboardWidget title="Voyageurs" icon="UsersIcon" color="violet">
+      <div class="flex gap-2 flex-col text-gray-500">
+        <span class="text-xs">Actuellement</span>
+        <div class="w-full bg-gray-200 rounded-full">
+          <div
+            class="bg-violet-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+            :style="{
+              width: Math.round((100 * travel.travelers.length) / travel.numberOfTravelers) + '%'
+            }"
+          >
+            {{ travel.travelers.length }} / {{ travel.numberOfTravelers }}
+          </div>
         </div>
-        <h3 class="text-sm font-light text-gray-600 bg-violet-100 rounded-2xl px-2">Voyageurs</h3>
       </div>
-      <div class="flex justify-between items-center">
-        <span class="text-sm">{{ travel.travelers.length }}</span>
-        <progress
-          class="progress progress-primary w-4/5"
-          :value="travel.travelers.length"
-          :max="travel.numberOfTravelers"
-        />
-        <span class="text-sm">{{ travel.numberOfTravelers }}</span>
-      </div>
-    </div>
+    </CardDashboardWidget>
   </aside>
 </template>
 <style scoped></style>
