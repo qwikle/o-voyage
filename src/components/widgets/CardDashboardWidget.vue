@@ -59,7 +59,7 @@ import(/* @vite-ignore */ `@heroicons/vue/24/outline`).then((module) => {
 })
 </script>
 <template>
-  <div class="h-32 w-full lg:w-1/6 shadow bg-gray-50 rounded-lg px-2 flex flex-col gap-y-4">
+  <div class="h-32 w-full lg:w-1/5 shadow bg-gray-50 rounded-lg px-2 flex flex-col gap-y-4">
     <div class="flex justify-between items-center">
       <div
         class="w-10 h-10 flex justify-center items-center rounded-lg mt-3"
