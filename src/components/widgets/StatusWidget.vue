@@ -38,7 +38,7 @@ const message = computed(() => {
     <span class="w-3 h-3 rounded-full flex justify-center items-center" :class="statusColor">
       <span class="w-3 h-3 rounded-full animate-ping" :class="statusColor"></span>
     </span>
-    <span class="text-md lg:text-lg text-gray-300 font-medium italic">{{ message }}</span>
+    <span class="text-sm font-light italic">{{ message }}</span>
   </div>
 </template>
 <style scoped></style>
