@@ -44,14 +44,14 @@ async function createTravel(travel: ITravelInput) {
   <div class="w-full pt-10 flex flex-col gap-4 px-4 overflow-x-auto">
     <h1 class="text-center text-2xl font-bold text-slate-700">Mes Voyages</h1>
     <button
-      class="self-end btn btn-circle btn-primary lg:hidden"
+      class="self-end btn btn-circle btn-base lg:hidden shadow-md"
       aria-label="créer un voyage"
       @click="setIsOpen(true)"
     >
       <PlusIcon class="w-8 h-8" />
     </button>
     <button
-      class="self-end btn btn-md btn-primary hidden lg:block"
+      class="self-end btn btn-md btn-base hidden lg:block shadow-md"
       @click="setIsOpen(true)"
       aria-label="créer un voyage"
     >
