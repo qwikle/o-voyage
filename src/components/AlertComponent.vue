@@ -7,7 +7,7 @@ const { message, show, type } = storeToRefs(useAlertStore())
 <template>
   <XyzTransition xyz="fade right-100%">
     <div
-      class="alert text-gray-800 absolute w-64 h-16 top-24 right-3"
+      class="alert text-gray-800 absolute w-64 h-16 top-24 right-3 flex items-center text-sm"
       :class="{
         'alert-success': type === 'success',
         'alert-error': type === 'error',
