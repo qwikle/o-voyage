@@ -18,8 +18,4 @@ useHead({
     <DashboardWidget :travel="travel" />
   </div>
 </template>
-<style scoped>
-.hideScroll::-webkit-scrollbar {
-  display: none;
-}
-</style>
+<style scoped></style>
