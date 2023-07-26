@@ -38,7 +38,7 @@ defineProps({
 
     <CardDashboardWidget title="Organisateur" icon="UserIcon" color="orange">
       <div class="flex flex-col items-center">
-        <p class="text-md text-orange-500">{{ travel.organizer.fullname }}</p>
+        <p class="text-md text-orange-500 capitalize">{{ travel.organizer.fullname }}</p>
       </div>
     </CardDashboardWidget>
 
