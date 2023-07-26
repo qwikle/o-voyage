@@ -65,7 +65,7 @@ function isSiblingDate(value: 'next' | 'last') {
       class="w-1/5 h-10 btn btn-sm"
       aria-label="Date précédante"
     >
-      <span class="hidden md:inline">précédant</span>
+      <span class="hidden md:inline">précédent</span>
       <ChevronLeftIcon class="h-5 w-5 md:hidden" />
     </button>
 
@@ -92,7 +92,7 @@ function isSiblingDate(value: 'next' | 'last') {
               'bg-primary text-white': active || selected
             }"
           >
-            Jour {{ date.day }} Le {{ date.date }}
+            Jour {{ date.day }} - Le {{ date.date }}
             <CheckIcon v-show="selected" class="h-5 w-5 text-emerald-500 hidden md:block" />
           </li>
         </ListboxOption>
