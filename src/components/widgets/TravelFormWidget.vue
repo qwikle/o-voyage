@@ -80,21 +80,16 @@ const forms = ref([
 ])
 
 async function getOptions(event: InputEvent) {
-  clearTimeout(timeout.value)
   destination.value.value = (event.target as HTMLInputElement).value
   if (destination.value.value.length < 3) {
     options.value = []
     return
   }
-  timeout.value = setTimeout(async () => {
-    options.value = countryData
-      .filter((country) =>
-        country.name.toLowerCase().includes(destination.value.value.toLowerCase())
-      )
-      .map((country) => ({
-        name: country.name
-      }))
-  }, 500)
+  options.value = countryData
+    .filter((country) => country.name.toLowerCase().includes(destination.value.value.toLowerCase()))
+    .map((country) => ({
+      name: country.name
+    }))
 }
 
 function mapForm() {
