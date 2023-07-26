@@ -26,7 +26,7 @@ export const travelRoutes = [
     },
     children: [
       {
-        path: ':date(\\d{4}-\\d{2}-\\d{2})',
+        path: ':date([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9])',
         name: 'TripDate',
         component: () => import('../views/trips/TripDateView.vue'),
         meta: {
