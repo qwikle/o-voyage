@@ -15,9 +15,9 @@ defineProps({
 </script>
 <template>
   <aside
-    class="flex flex-col justify-center items-center gap-y-4 lg:flex-row lg:justify-between p-4 select-none"
+    class="flex flex-col justify-center items-center gap-y-4 lg:flex-row lg:justify-between select-none"
   >
-    <div class="h-32 w-52 shadow bg-gray-200 rounded-lg flex">
+    <div class="h-32 w-48 shadow rounded-lg flex">
       <CountryWidget :name="travel.to" class="object-cover w-full rounded-lg" />
     </div>
 
@@ -38,7 +38,7 @@ defineProps({
 
     <CardDashboardWidget title="Organisateur" icon="UserIcon" color="orange">
       <div class="flex flex-col items-center">
-        <p class="text-lg text-orange-500">{{ travel.organizer.fullname }}</p>
+        <p class="text-md text-orange-500">{{ travel.organizer.fullname }}</p>
       </div>
     </CardDashboardWidget>
 
@@ -57,16 +57,32 @@ defineProps({
 
     <CardDashboardWidget title="Voyageurs" icon="UsersIcon" color="violet">
       <div class="flex gap-2 flex-col text-gray-500">
-        <span class="text-xs lg:text-sm">Actuellement</span>
+        <div class="flex justify-between text-xs lg:text-sm">
+          <span
+            :class="{
+              'text-violet-600': travel.travelers.length === travel.numberOfTravelers
+            }"
+            >Actuellement</span
+          >
+          <span
+            :class="{
+              'text-violet-600': travel.travelers.length === travel.numberOfTravelers
+            }"
+          >
+            {{ travel.travelers.length }} / {{ travel.numberOfTravelers }}</span
+          >
+        </div>
         <div class="w-full bg-gray-200 rounded-full">
           <div
-            class="bg-violet-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+            class="text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
             :style="{
               width: Math.round((100 * travel.travelers.length) / travel.numberOfTravelers) + '%'
             }"
-          >
-            {{ travel.travelers.length }} / {{ travel.numberOfTravelers }}
-          </div>
+            :class="{
+              'bg-violet-600': travel.travelers.length === travel.numberOfTravelers,
+              'bg-violet-300': travel.travelers.length !== travel.numberOfTravelers
+            }"
+          ></div>
         </div>
       </div>
     </CardDashboardWidget>
