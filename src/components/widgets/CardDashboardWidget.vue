@@ -22,32 +22,32 @@ const switchedColor = computed(() => {
     rose: {
       icon: 'text-rose-400',
       bg: 'bg-rose-100',
-      text: 'text-rose-600 bg-rose-100'
+      text: 'text-rose-600 bg-rose-100 border-rose-600'
     },
     sky: {
       icon: 'text-sky-400',
       bg: 'bg-sky-100',
-      text: 'text-sky-600 bg-sky-100'
+      text: 'text-sky-600 bg-sky-100 border-sky-600'
     },
     emerald: {
       icon: 'text-emerald-400',
       bg: 'bg-emerald-100',
-      text: 'text-emerald-600 bg-emerald-100'
+      text: 'text-emerald-600 bg-emerald-100 border-emerald-600'
     },
     violet: {
       icon: 'text-violet-400',
       bg: 'bg-violet-100',
-      text: 'text-violet-600 bg-violet-100'
+      text: 'text-violet-600 bg-violet-100 border-violet-600'
     },
     gray: {
       icon: 'text-gray-400',
       bg: 'bg-gray-100',
-      text: 'text-gray-600 bg-gray-100'
+      text: 'text-gray-600 bg-gray-100 border-gray-600'
     },
     orange: {
       icon: 'text-orange-400',
       bg: 'bg-orange-100',
-      text: 'text-orange-600 bg-orange-100'
+      text: 'text-orange-600 bg-orange-100 border-orange-600'
     }
   }[props.color]
 })
@@ -67,7 +67,9 @@ import(/* @vite-ignore */ `@heroicons/vue/24/outline`).then((module) => {
       >
         <component :is="loadedIcon" class="w-8 h-8" :class="switchedColor!.icon" />
       </div>
-      <h3 class="text-sm font-light rounded-2xl px-2" :class="switchedColor!.text">{{ title }}</h3>
+      <h3 class="text-sm font-light rounded-2xl px-2 border" :class="switchedColor!.text">
+        {{ title }}
+      </h3>
     </div>
     <slot></slot>
   </div>
