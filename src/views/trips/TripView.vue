@@ -33,6 +33,7 @@ watch(selectedDate, (value) => {
   <div class="flex flex-col gap-y-4 p-4">
     <DashboardWidget :travel="travel" />
     <SelectTravelDayWidget
+      :dates="travel.dateList"
       :startedDate="travel.departureDate"
       :arrivalDate="travel.arrivalDate"
       v-model="selectedDate"

@@ -1,11 +1,11 @@
 import travelService from '@/services/travel/travel.service'
 import { defineStore } from 'pinia'
-import type { ITravel, TravelInput } from '@/models'
+import type { Travel, TravelInput } from '@/models'
 
 export const useTravelStore = defineStore('travel', {
   state: () => ({
-    travels: [] as ITravel[],
-    travel: null as ITravel | null
+    travels: [] as Travel[],
+    travel: null as Travel | null
   }),
   actions: {
     async getTravels() {

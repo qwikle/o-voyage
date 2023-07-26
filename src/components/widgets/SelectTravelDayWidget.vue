@@ -14,8 +14,6 @@ import {
   ChevronRightIcon
 } from '@heroicons/vue/24/outline'
 
-import { getListOfDatesFromTwoDates } from '@/utils/functions'
-
 const props = defineProps({
   startedDate: {
     type: String,
@@ -28,26 +26,28 @@ const props = defineProps({
   modelValue: {
     type: Object as PropType<{ day: number; date: string; value: string }>,
     required: true
+  },
+  dates: {
+    type: Array as PropType<{ day: number; date: string; value: string }[]>,
+    required: true
   }
 })
 
 const emit = defineEmits(['update:modelValue'])
 
-const dates = getListOfDatesFromTwoDates(props.startedDate, props.arrivalDate)
-
 function siblingDate(value: 'next' | 'last') {
-  const index = dates.findIndex((date) => date.value === props.modelValue.value)
+  const index = props.dates.findIndex((date) => date.value === props.modelValue.value)
   if (value === 'next') {
-    emit('update:modelValue', dates[index + 1])
+    emit('update:modelValue', props.dates[index + 1])
   } else {
-    emit('update:modelValue', dates[index - 1])
+    emit('update:modelValue', props.dates[index - 1])
   }
 }
 
 function isSiblingDate(value: 'next' | 'last') {
-  const index = dates.findIndex((date) => date.value === props.modelValue.value)
+  const index = props.dates.findIndex((date) => date.value === props.modelValue.value)
   if (value === 'next') {
-    return index < dates.length - 1
+    return index < props.dates.length - 1
   }
   return index > 0
 }

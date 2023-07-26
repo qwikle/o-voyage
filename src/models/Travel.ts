@@ -1,5 +1,5 @@
 import { Traveler, type ITraveler } from './Traveler'
-
+import { DateTime } from 'luxon'
 export interface ITravel {
   id: number
   title: string
@@ -32,6 +32,11 @@ export class Travel implements ITravel {
   organizerId: number
   invitationLink?: string | undefined
   travelers: ITraveler[]
+  dateList: {
+    day: number
+    date: string
+    value: string
+  }[]
 
   constructor(travel: ITravel) {
     this.id = travel.id
@@ -46,6 +51,7 @@ export class Travel implements ITravel {
     this.organizerId = travel.organizerId
     this.invitationLink = travel.invitationLink
     this.travelers = travel.travelers.filter((traveler) => new Traveler(traveler))
+    this.dateList = this.getListOfDatesFromTwoDates(travel.departureDate, travel.arrivalDate)
   }
 
   get status(): string {
@@ -79,5 +85,21 @@ export class Travel implements ITravel {
     ) as ITraveler
 
     return new Traveler(traveler)
+  }
+
+  getListOfDatesFromTwoDates(startDate: string, stopDate: string) {
+    const dateArray = []
+    let currentDate = DateTime.fromISO(startDate)
+    while (currentDate <= DateTime.fromISO(stopDate)) {
+      const value = currentDate.toFormat('yyyy-MM-dd')
+      const date = currentDate.toFormat('dd/MM/yyyy')
+      dateArray.push({
+        day: dateArray.length + 1,
+        date,
+        value
+      })
+      currentDate = currentDate.plus({ days: 1 })
+    }
+    return dateArray
   }
 }

@@ -1,9 +1,9 @@
-import { Travel, type ITravel } from '@/models'
+import { Travel } from '@/models'
 import { ClientService } from '../api/client.service'
 import type { TravelInput } from '@/models/inputs/travel.input'
 
 class TravelService extends ClientService {
-  async getTravelList(): Promise<ITravel[]> {
+  async getTravelList(): Promise<Travel[]> {
     const { me } = (await this.client.query({
       query: `query Travel {
   me {
@@ -29,11 +29,11 @@ class TravelService extends ClientService {
   }
 }`,
       variables: {}
-    })) as unknown as { me: { travels: ITravel[] } }
+    })) as unknown as { me: { travels: Travel[] } }
     return me.travels.map((travel) => new Travel(travel))
   }
 
-  async createTravel(travel: TravelInput): Promise<ITravel> {
+  async createTravel(travel: TravelInput): Promise<Travel> {
     const { createTravel } = (await this.client.mutation({
       query: `mutation Mutation($createTravelInput: CreateTravelInput!) {
   createTravel(createTravelInput: $createTravelInput) {
@@ -57,11 +57,11 @@ class TravelService extends ClientService {
   }
 }`,
       variables: { createTravelInput: travel }
-    })) as unknown as { createTravel: ITravel }
+    })) as unknown as { createTravel: Travel }
     return new Travel(createTravel)
   }
 
-  async getTravelBySlug(slug: string): Promise<ITravel | null> {
+  async getTravelBySlug(slug: string): Promise<Travel | null> {
     const { travelBySlug } = (await this.client.query({
       query: `
       query Query($slug: String!) {
@@ -108,7 +108,7 @@ class TravelService extends ClientService {
       `,
       variables: { slug }
     })) as unknown as {
-      travelBySlug: ITravel
+      travelBySlug: Travel
     }
     return travelBySlug ? new Travel(travelBySlug) : null
   }

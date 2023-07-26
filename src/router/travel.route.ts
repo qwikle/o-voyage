@@ -35,11 +35,9 @@ export const travelRoutes = [
         },
         beforeEnter: async (to: { params: { slug: string; date: string } }) => {
           const { useTravelStore } = await import('@/stores/travel.store')
-          const { getListOfDatesFromTwoDates } = await import('@/utils/functions')
           await useTravelStore().getTravelBySlug(to.params.slug as string)
           const travel = useTravelStore().travel!
-          const dates = getListOfDatesFromTwoDates(travel.departureDate, travel.arrivalDate)
-          const exists = dates.find((date) => date.value === to.params.date)
+          const exists = travel.dateList.find((date) => date.value === to.params.date)
           if (!exists) {
             return { name: 'NotFound' }
           }
