@@ -2,7 +2,9 @@
 import { Bars3BottomRightIcon } from '@heroicons/vue/24/outline'
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth.store'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const authStore = useAuthStore()
 
 const menus = computed(() => {
@@ -25,11 +27,11 @@ const menus = computed(() => {
   return [
     {
       label: 'Connexion',
-      path: '/signin'
+      path: route.query.redirect ? `/signin?redirect=${route.query.redirect}` : '/signin'
     },
     {
       label: 'Inscription',
-      path: '/signup'
+      path: route.query.redirect ? `/signup?redirect=${route.query.redirect}` : '/signup'
     }
   ]
 })
@@ -67,9 +69,9 @@ const menus = computed(() => {
       </nav>
     </div>
     <div class="flex items-center gap-x-2">
-      <button aria-label="ouvrir le menu" class="h-10 w-10 flex hover:rounded group">
+      <button aria-label="ouvrir le menu" class="h-10 w-10 flex hover:rounded group lg:hidden">
         <Bars3BottomRightIcon
-          class="text-white h-full w-full group-hover:bg-slate-500 rounded group-active:bg-slate-600 lg:hidden"
+          class="text-white h-full w-full group-hover:bg-slate-500 rounded group-active:bg-slate-600"
         />
       </button>
     </div>

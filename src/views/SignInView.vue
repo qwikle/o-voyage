@@ -3,7 +3,9 @@ import inputWidget from '@/components/widgets/InputWidget.vue'
 import ContainerFormWidget from '@/components/widgets/ContainerFormWidget.vue'
 import { useAuthStore } from '@/stores/auth.store'
 import { ref, computed } from 'vue'
+import { RouterLink } from 'vue-router'
 import { useHead } from '@unhead/vue'
+import { useRoute } from 'vue-router'
 
 useHead({
   title: 'Connexion',
@@ -45,6 +47,10 @@ const forms = ref([
   }
 ])
 
+const route = useRoute()
+const signUp = computed(() => {
+  return route.query.redirect ? `/signup?redirect=${route.query.redirect}` : '/signup'
+})
 async function submitForm(event: Event) {
   event.preventDefault()
   const email = forms.value[0].value
@@ -82,5 +88,9 @@ const isDisabled = computed(() => {
         Se connecter
       </button>
     </form>
+    <div class="flex">
+      <span>Pas encore inscris ?</span>
+      <RouterLink :to="signUp" class="text-primary ml-2"> Créer un compte </RouterLink>
+    </div>
   </ContainerFormWidget>
 </template>

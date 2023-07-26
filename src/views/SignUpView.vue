@@ -4,6 +4,7 @@ import inputWidget from '@/components/widgets/InputWidget.vue'
 import { useAuthStore } from '@/stores/auth.store'
 import { ref, computed } from 'vue'
 import { useHead } from '@unhead/vue'
+import { useRoute } from 'vue-router'
 
 useHead({
   title: 'Inscription',
@@ -103,6 +104,11 @@ async function submitForm(event: Event) {
     confirmPassword
   })
 }
+
+const route = useRoute()
+const signIn = computed(() => {
+  return route.query.redirect ? `/signin?redirect=${route.query.redirect}` : '/signin'
+})
 </script>
 <template>
   <ContainerFormWidget title="Inscription">
@@ -124,6 +130,10 @@ async function submitForm(event: Event) {
         S'inscrire
       </button>
     </form>
+    <div class="flex">
+      <span>Déjà inscris ?</span>
+      <RouterLink :to="signIn" class="text-primary ml-2"> Connectez-vous </RouterLink>
+    </div>
   </ContainerFormWidget>
 </template>
 <style scoped></style>
