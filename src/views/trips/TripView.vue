@@ -5,6 +5,7 @@ import DashboardWidget from '@/components/widgets/DashboardWidget.vue'
 import { ref, watch } from 'vue'
 import SelectTravelDayWidget from '@/components/widgets/SelectTravelDayWidget.vue'
 import { useRouter, useRoute } from 'vue-router'
+import { DateTime } from 'luxon'
 const travel = useTravelStore().travel!
 useHead({
   title: `${travel.title}`,
@@ -19,12 +20,12 @@ useHead({
 const route = useRoute()
 const router = useRouter()
 
-const selectedDate = ref<{ day: number; date: string; value: string }>({
-  day: 1,
-  date: new Date((route.params.date as string) ?? travel.departureDate).toLocaleDateString('fr-FR'),
-  value: (route.params.date as string) ?? travel.departureDate
-})
+const actualDate =
+  travel.dateList.find((date) => date.value === route.params.date) ??
+  travel.dateList.find((date) => date.value === DateTime.now().toFormat('yyyy-MM-dd')) ??
+  travel.dateList[0]
 
+const selectedDate = ref<{ day: number; date: string; value: string }>(actualDate)
 watch(selectedDate, (value) => {
   router.push({ name: 'TripDate', params: { date: value.value } })
 })
