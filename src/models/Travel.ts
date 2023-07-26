@@ -1,5 +1,6 @@
 import { Traveler, type ITraveler } from './Traveler'
 import { DateTime } from 'luxon'
+import type { IActivity } from './activity'
 export interface ITravel {
   id: number
   title: string
@@ -12,6 +13,7 @@ export interface ITravel {
   budget: number
   organizerId: number
   invitationLink?: string
+  activities: IActivity[]
   travelers: ITraveler[]
   status: string
   organizer: ITraveler
@@ -31,7 +33,8 @@ export class Travel implements ITravel {
   budget: number
   organizerId: number
   invitationLink?: string | undefined
-  travelers: ITraveler[]
+  activities: IActivity[] = []
+  travelers: ITraveler[] = []
   dateList: {
     day: number
     date: string
@@ -52,6 +55,7 @@ export class Travel implements ITravel {
     this.invitationLink = travel.invitationLink
     this.travelers = travel.travelers.filter((traveler) => new Traveler(traveler))
     this.dateList = this.getListOfDatesFromTwoDates(travel.departureDate, travel.arrivalDate)
+    this.activities = travel.activities
   }
 
   get status(): string {
