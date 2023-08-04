@@ -1,3 +1,5 @@
+import { activityRoutes } from './activity.route'
+
 export const travelRoutes = [
   {
     path: '/trips',
@@ -26,22 +28,20 @@ export const travelRoutes = [
     },
     children: [
       {
-        path: ':date([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9])',
-        name: 'TripDate',
-        component: () => import('../views/trips/TripDateView.vue'),
-        meta: {
-          onlyGuest: false,
-          requiresAuth: true
-        },
-        beforeEnter: async (to: { params: { slug: string; date: string } }) => {
-          const { useTravelStore } = await import('@/stores/travel.store')
-          await useTravelStore().getTravelBySlug(to.params.slug as string)
-          const travel = useTravelStore().travel!
-          const exists = travel.dateList.find((date) => date.value === to.params.date)
-          if (!exists) {
-            return { name: 'NotFound' }
-          }
-        }
+        path: '',
+        name: 'TripOverview',
+        component: () => import('../views/trips/TripOverviewView.vue')
+      },
+      {
+        path: 'settings',
+        name: 'TripSettings',
+        component: () => import('../views/trips/TripSettingsView.vue')
+      },
+      {
+        path: 'activities',
+        name: 'TripActivities',
+        component: () => import('../views/trips/activities/ActivitiesView.vue'),
+        children: [...activityRoutes]
       }
     ]
   }
