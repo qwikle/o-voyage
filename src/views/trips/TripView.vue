@@ -48,8 +48,8 @@ interface Path {
         v-for="(path, index) in paths"
         :key="index"
         :to="path.route"
+        exactActiveClass="bg-gray-200"
         class="w-32 flex justify-center gap-x-2 items-center h-10 rounded-lg text-slate-700 hover:bg-gray-200"
-        activeClass="bg-gray-200"
       >
         <component :is="path.icon" class="h-5 w-5" />
         {{ path.name }}</RouterLink
