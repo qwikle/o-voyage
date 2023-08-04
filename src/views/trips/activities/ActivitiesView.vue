@@ -2,20 +2,21 @@
 import { ref, watch } from 'vue'
 import SelectTravelDayWidget from '@/components/widgets/SelectTravelDayWidget.vue'
 import { useRouter, useRoute } from 'vue-router'
-import { DateTime } from 'luxon'
 import { useTravelStore } from '@/stores/travel.store'
 
 const travel = useTravelStore().travel!
 
 const route = useRoute()
 const router = useRouter()
+const defaultValue = {
+  day: 0,
+  date: '',
+  value: '',
+  message: 'Sélectionnez une date'
+}
+const actualDate = travel.dateList.find((date) => date.value === route.params.date) ?? defaultValue
 
-const actualDate =
-  travel.dateList.find((date) => date.value === route.params.date) ??
-  travel.dateList.find((date) => date.value === DateTime.now().toFormat('yyyy-MM-dd')) ??
-  travel.dateList[0]
-
-const selectedDate = ref<{ day: number; date: string; value: string }>(actualDate)
+const selectedDate = ref<{ day: number; date: string; value: string; message?: string }>(actualDate)
 watch(selectedDate, (value) => {
   router.push({ name: 'TripDate', params: { date: value.value } })
 })
