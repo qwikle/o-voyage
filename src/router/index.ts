@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { isAuth } from './guards/auth'
-import { authRoutes } from './auth.route'
-import { travelRoutes } from './travel.route'
+import { authRoutes } from './routes/auth.route'
+import { travelRoutes } from './routes/travel.route'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

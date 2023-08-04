@@ -2,7 +2,7 @@ export const authRoutes = [
   {
     path: '/signin',
     name: 'Signin',
-    component: () => import('../views/SignInView.vue'),
+    component: () => import('@/views/SignInView.vue'),
     meta: {
       onlyGuest: true,
       requiresAuth: false
@@ -11,7 +11,7 @@ export const authRoutes = [
   {
     path: '/signup',
     name: 'Signup',
-    component: () => import('../views/SignUpView.vue'),
+    component: () => import('@/views/SignUpView.vue'),
     meta: {
       onlyGuest: true,
       requiresAuth: false
@@ -20,7 +20,7 @@ export const authRoutes = [
   {
     path: '/account',
     name: 'Account',
-    component: () => import('../views/AccountView.vue'),
+    component: () => import('@/views/AccountView.vue'),
     meta: {
       onlyGuest: false,
       requiresAuth: true

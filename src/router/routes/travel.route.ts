@@ -4,7 +4,7 @@ export const travelRoutes = [
   {
     path: '/trips',
     name: 'Trips',
-    component: () => import('../views/trips/TripsView.vue'),
+    component: () => import('@/views/trips/TripsView.vue'),
     meta: {
       onlyGuest: false,
       requiresAuth: true
@@ -14,7 +14,7 @@ export const travelRoutes = [
     // regex must match slug format slug ending with a number
     path: '/trips/:slug([\\w+-]+-\\d+)',
     name: 'Trip',
-    component: () => import('../views/trips/TripView.vue'),
+    component: () => import('@/views/trips/TripView.vue'),
     meta: {
       onlyGuest: false,
       requiresAuth: true
@@ -30,17 +30,17 @@ export const travelRoutes = [
       {
         path: '',
         name: 'TripOverview',
-        component: () => import('../views/trips/TripOverviewView.vue')
+        component: () => import('@/views/trips/TripOverviewView.vue')
       },
       {
         path: 'settings',
         name: 'TripSettings',
-        component: () => import('../views/trips/TripSettingsView.vue')
+        component: () => import('@/views/trips/TripSettingsView.vue')
       },
       {
         path: 'activities',
         name: 'TripActivities',
-        component: () => import('../views/trips/activities/ActivitiesView.vue'),
+        component: () => import('@/views/trips/activities/ActivitiesView.vue'),
         children: [...activityRoutes]
       }
     ]
