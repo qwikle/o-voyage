@@ -24,11 +24,11 @@ const props = defineProps({
     required: true
   },
   modelValue: {
-    type: Object as PropType<{ day: number; date: string; value: string }>,
+    type: Object as PropType<{ day: number; date: string; value: string; message?: string }>,
     required: true
   },
   dates: {
-    type: Array as PropType<{ day: number; date: string; value: string }[]>,
+    type: Array as PropType<{ day: number; date: string; value: string; message?: string }[]>,
     required: true
   }
 })
@@ -71,7 +71,10 @@ function isSiblingDate(value: 'next' | 'last') {
 
     <ListboxButton class="bg-gray-100 w-3/5 h-10 text-gray-600 relative shadow-sm rounded-lg">
       <ListboxLabel class="text-gray-600 text-sm">
-        Jour {{ modelValue.day }} Le {{ modelValue.date }}
+        <template v-if="modelValue.message">
+          {{ modelValue.message }}
+        </template>
+        <template v-else> Jour {{ modelValue.day }} Le {{ modelValue.date }} </template>
       </ListboxLabel>
       <ChevronUpDownIcon class="absolute right-2 top-2 h-6 w-6 text-gray-600" />
     </ListboxButton>
@@ -83,6 +86,7 @@ function isSiblingDate(value: 'next' | 'last') {
           v-for="(date, index) in dates"
           :key="index"
           :value="date"
+          :disabled="date.message === 'Sélectionnez une date'"
           @click="emit('update:modelValue', date)"
           v-slot="{ active, selected }"
         >
@@ -92,7 +96,10 @@ function isSiblingDate(value: 'next' | 'last') {
               'bg-primary text-white': active || selected
             }"
           >
-            Jour {{ date.day }} - Le {{ date.date }}
+            <template v-if="date.message">
+              {{ date.message }}
+            </template>
+            <template v-else> Jour {{ date.day }} - Le {{ date.date }} </template>
             <CheckIcon v-show="selected" class="h-5 w-5 text-emerald-500 hidden md:block" />
           </li>
         </ListboxOption>
