@@ -20,17 +20,20 @@ const paths: Path[] = [
   {
     route: { name: 'TripOverview', params: { slug: travel.slug } },
     name: 'Général',
-    icon: HomeIcon
+    icon: HomeIcon,
+    exactActiveClass: 'bg-gray-200'
   },
   {
     route: { name: 'TripActivities', params: { slug: travel.slug } },
     name: 'Activités',
-    icon: SquaresPlusIcon
+    icon: SquaresPlusIcon,
+    activeClass: 'bg-gray-200'
   },
   {
     route: { name: 'TripSettings', params: { slug: travel.slug } },
     name: 'Paramètres',
-    icon: Cog8ToothIcon
+    icon: Cog8ToothIcon,
+    exactActiveClass: 'bg-gray-200'
   }
 ]
 
@@ -38,6 +41,8 @@ interface Path {
   route: RouteLocationRaw
   name: string
   icon: any
+  activeClass?: string
+  exactActiveClass?: string
 }
 </script>
 <template>
@@ -48,7 +53,8 @@ interface Path {
         v-for="(path, index) in paths"
         :key="index"
         :to="path.route"
-        exactActiveClass="bg-gray-200"
+        :activeClass="path.activeClass"
+        :exactActiveClass="path.exactActiveClass"
         class="w-32 flex justify-center gap-x-2 items-center h-10 rounded-lg text-slate-700 hover:bg-gray-200"
       >
         <component :is="path.icon" class="h-5 w-5" />
