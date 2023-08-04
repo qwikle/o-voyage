@@ -1,16 +1,28 @@
 <script setup lang="ts">
 import type { ITravel } from '@/models'
-import type { PropType } from 'vue'
+import { type PropType, computed } from 'vue'
 import CountryWidget from '@/components/widgets/CountryWidget.vue'
 import { CalendarDaysIcon, ArrowSmallRightIcon } from '@heroicons/vue/24/outline'
 import CardDashboardWidget from './CardDashboardWidget.vue'
 import StatusWidget from './StatusWidget.vue'
 
-defineProps({
+const props = defineProps({
   travel: {
     type: Object as PropType<ITravel>,
     required: true
   }
+})
+
+const budgetLeft = computed(() => {
+  const totalPriceActivities = props.travel.activities.reduce(
+    (acc, activity) => acc + activity.price,
+    0
+  )
+  return props.travel.budget - totalPriceActivities
+})
+
+const percentageBudgetLeft = computed(() => {
+  return Math.round((budgetLeft.value / props.travel.budget) * 100)
 })
 </script>
 <template>
@@ -50,7 +62,15 @@ defineProps({
         </div>
         <div class="flex flex-col">
           <p>Budget restant</p>
-          <span class="text-red-600 text-center">{{ travel.budget }}€</span>
+          <span
+            class="text-center"
+            :class="{
+              'text-emerald-600': percentageBudgetLeft > 75,
+              'text-yellow-600': percentageBudgetLeft > 50 && percentageBudgetLeft < 75,
+              'text-red-600': percentageBudgetLeft < 25
+            }"
+            >{{ budgetLeft }}€</span
+          >
         </div>
       </div>
     </CardDashboardWidget>
