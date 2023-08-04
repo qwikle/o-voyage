@@ -77,7 +77,7 @@ function isSiblingDate(value: 'next' | 'last') {
     </ListboxButton>
     <XyzTransition xyz="fade in-out duration-2" appear>
       <ListboxOptions
-        class="absolute text-slate-600 text-sm gap-y-3 flex w-3/5 max-h-52 overflow-y-auto top-14 rounded-lg flex-col p-4 bg-gray-50 shadow-lg"
+        class="absolute text-slate-600 text-sm gap-y-3 flex w-3/5 max-h-52 overflow-y-auto top-14 rounded-lg flex-col p-4 bg-gray-50 shadow-lg z-10"
       >
         <ListboxOption
           v-for="(date, index) in dates"
