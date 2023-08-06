@@ -35,7 +35,7 @@ router.beforeEach(async (to) => {
   }
   if (to.meta.onlyGuest) {
     if (authenticated) {
-      return { name: 'Trips' }
+      return { name: 'TripList' }
     }
   }
 })
