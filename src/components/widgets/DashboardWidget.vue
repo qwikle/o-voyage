@@ -66,8 +66,8 @@ const percentageBudgetLeft = computed(() => {
             class="text-center"
             :class="{
               'text-emerald-600': percentageBudgetLeft > 75,
-              'text-yellow-600': percentageBudgetLeft > 50 && percentageBudgetLeft < 75,
-              'text-red-600': percentageBudgetLeft < 25
+              'text-yellow-600': percentageBudgetLeft > 40 && percentageBudgetLeft < 75,
+              'text-red-600': percentageBudgetLeft < 40
             }"
             >{{ budgetLeft }}€</span
           >
