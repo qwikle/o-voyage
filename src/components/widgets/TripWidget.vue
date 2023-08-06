@@ -6,7 +6,7 @@ import type { ITravel } from '@/models'
 import { type PropType, computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.store'
 import { useTravelStore } from '@/stores/travel.store'
-import DialogComponent from '../DialogComponent.vue'
+import DialogComponent from '@/components/DialogComponent.vue'
 const props = defineProps({
   travel: {
     type: Object as PropType<ITravel>,
