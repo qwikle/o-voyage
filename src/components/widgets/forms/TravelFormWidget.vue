@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import inputWidget from '@/components/widgets/InputWidget.vue'
-import SelectInputWidget from './SelectInputWidget.vue'
+import inputWidget, { type InputWidgetProps } from '@/components/widgets/inputs/InputWidget.vue'
+import SelectInputWidget from '@/components/widgets/inputs/SelectInputWidget.vue'
 import countryData from '@/datas/countries.json'
 defineProps({
   isDialog: {
@@ -11,7 +11,6 @@ defineProps({
   }
 })
 
-const timeout = ref(0)
 const options = ref([] as { name: string }[])
 const destination = ref({
   name: 'to',
@@ -25,7 +24,7 @@ const destination = ref({
   isPassword: false
 })
 
-const forms = ref([
+const forms = ref<InputWidgetProps[]>([
   {
     name: 'departureDate',
     label: 'Date de départ',
