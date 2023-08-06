@@ -34,7 +34,7 @@ const departureArrivalDate = computed(() => {
 })
 
 const to = computed(() => {
-  return { name: 'Trip', params: { slug: props.travel.slug } }
+  return { name: 'TripOverview', params: { slug: props.travel.slug } }
 })
 
 function deleteTravel() {
