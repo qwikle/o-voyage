@@ -19,6 +19,20 @@ class TravelService extends ClientService {
       numberOfTravelers
       organizerId
       invitationLink
+      activities {
+      id
+      name
+      price
+      location
+      members
+      date
+      time
+      categoryId
+      category {
+        id
+        name
+      }
+    }
       travelers {
         id
         firstname
