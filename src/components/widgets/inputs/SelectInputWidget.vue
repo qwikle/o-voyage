@@ -18,7 +18,7 @@ defineProps({
   disabled: Boolean,
   autocomplete: String,
   options: {
-    type: Array as PropType<{ name: string }[]>,
+    type: Array as PropType<IOption[]>,
     default: () => []
   },
   by: {
@@ -29,6 +29,18 @@ defineProps({
 defineEmits(['update:modelValue', 'change'])
 interface IOption {
   name: string
+}
+
+export interface ISelectInputWidgetProps {
+  name: string
+  label: string
+  value: string
+  placeholder: string
+  required: boolean
+  disabled: boolean
+  autocomplete: string
+  options: IOption[]
+  by: string
 }
 </script>
 <template>

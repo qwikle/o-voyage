@@ -10,7 +10,9 @@ const props = defineProps({
   required: Boolean,
   disabled: Boolean,
   autocomplete: String,
-  isPassword: Boolean
+  isPassword: Boolean,
+  min: [Number, String],
+  max: [Number, String]
 })
 const reactiveType = ref(props.type)
 
@@ -19,6 +21,20 @@ function togglePassword() {
 }
 
 defineEmits(['update:modelValue'])
+
+export interface InputWidgetProps {
+  name: string
+  label?: string
+  type?: string
+  value?: string
+  placeholder?: string
+  required?: boolean
+  disabled?: boolean
+  autocomplete?: string
+  isPassword?: boolean
+  min?: number | string
+  max?: number | string
+}
 </script>
 <template>
   <div class="flex flex-col items-center w-full gap-1 relative">
@@ -34,6 +50,8 @@ defineEmits(['update:modelValue'])
         :placeholder="placeholder"
         :required="required"
         :disabled="disabled"
+        :min="min"
+        :max="max"
         :autocomplete="autocomplete"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         class="h-12 px-2 placeholder:text-sm outline-none bg-slate-100 rounded-lg w-full focus:ring-2 focus:ring-primary text-sm"
