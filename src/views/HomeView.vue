@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TravelFormWidget from '@/components/widgets/TravelFormWidget.vue'
+import TravelFormWidget from '@/components/widgets/forms/TravelFormWidget.vue'
 import HeroArticleWidget from '@/components/widgets/HeroArticleWidget.vue'
 import vacances from '@/assets/vacances.png'
 import tempsLibre from '@/assets/temps-libre.png'
