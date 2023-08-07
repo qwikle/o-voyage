@@ -1,5 +1,5 @@
 import { Travel } from '@/models'
-import { ClientService } from '../api/client.service'
+import { ClientService } from '@/services/api/client.service'
 import type { TravelInput } from '@/models/inputs/travel.input'
 
 class TravelService extends ClientService {

@@ -1,5 +1,5 @@
 import type { User } from '@/models'
-import { ClientService } from '../api/client.service'
+import { ClientService } from '@/services/api/client.service'
 
 class AuthService extends ClientService {
   /**
