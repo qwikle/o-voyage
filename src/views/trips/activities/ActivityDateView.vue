@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import activities from '@/assets/undraw/activities.svg'
+import undrawActivity from '@/assets/undraw/activities.svg'
 import DialogComponent from '@/components/DialogComponent.vue'
 import ActivityFormWidget from '@/components/widgets/forms/ActivityFormWidget.vue'
 import { useRoute } from 'vue-router'
 import { useTravelStore } from '@/stores/travel.store'
 import { DateTime } from 'luxon'
+import { useActivityStore } from '@/stores/activity.store'
 const route = useRoute()
 const travel = useTravelStore().travel!
+const activities = useActivityStore().activities
 const isOpen = ref(false)
 function setIsOpen(value: boolean) {
   isOpen.value = value
@@ -27,7 +29,7 @@ const isDisabled = computed(() => {
       >
         Créer une activité
       </button>
-      <img :src="activities" alt="activities svg" class="w-full md:w-1/2" />
+      <img :src="undrawActivity" alt="activities svg" class="w-full md:w-1/2" />
       <h4 class="text-sm font-semibold italic md:text-lg">
         Vous n'avez aucune activités de prévue pour cette date
       </h4>
