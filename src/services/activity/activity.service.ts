@@ -1,5 +1,4 @@
-import type { IActivity } from '@/models'
-import { Activity } from '@/models/activity'
+import { type IActivity, type IActivityInput, Activity } from '@/models'
 import { ClientService } from '@/services/api/client.service'
 
 class ActivityService extends ClientService {
@@ -20,6 +19,26 @@ class ActivityService extends ClientService {
       variables: { date, activitiesByDateId: travelId }
     })) as unknown as { activities: IActivity[] }
     return activities ? activities.map((activity) => new Activity(activity)) : []
+  }
+
+  async createActivity(activity: IActivityInput): Promise<IActivity> {
+    const { createActivity } = (await this.client.mutation({
+      query: `mutation CreateActivity($createActivityInput: CreateActivityInput!) {
+  createActivity(createActivityInput: $createActivityInput) {
+    id
+    name
+    price
+    location
+    members
+    time
+    date
+    travelId
+    categoryId
+  }
+}`,
+      variables: { createActivityInput: activity }
+    })) as unknown as { createActivity: IActivity }
+    return new Activity(createActivity)
   }
 }
 
