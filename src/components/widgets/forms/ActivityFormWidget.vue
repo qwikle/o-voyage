@@ -93,13 +93,9 @@ const category = ref<ListBoxInputWidgetProps>({
 })
 
 defineEmits(['close'])
-
-function show(event: any) {
-  console.log(event)
-}
 </script>
 <template>
-  <form @submit.prevent="show" class="flex flex-col p-4 gap-y-8">
+  <form @submit.prevent="" class="flex flex-col p-4 gap-y-8">
     <ListBoxInputWidget
       v-model="category.modelValue"
       :options="category.options"
