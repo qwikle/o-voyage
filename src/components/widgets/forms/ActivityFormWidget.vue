@@ -122,8 +122,8 @@ defineEmits(['close'])
       :max="input.max"
     />
     <div class="flex flex-col lg:flex-row-reverse gap-2">
-      <button class="btn btn-primary w-1/2">créer</button>
-      <button class="btn btn-base w-1/2" @click="$emit('close', false)">annuler</button>
+      <button class="btn btn-primary w-full lg:w-1/2">créer</button>
+      <button class="btn btn-base w-full lg:w-1/2" @click="$emit('close', false)">annuler</button>
     </div>
   </form>
 </template>
