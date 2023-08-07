@@ -1,19 +1,8 @@
 <script setup lang="ts">
+import { Field, ErrorMessage } from 'vee-validate'
 import { ref } from 'vue'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
-const props = defineProps({
-  name: String,
-  label: String,
-  type: String,
-  value: String,
-  placeholder: String,
-  required: Boolean,
-  disabled: Boolean,
-  autocomplete: String,
-  isPassword: Boolean,
-  min: [Number, String],
-  max: [Number, String]
-})
+const props = defineProps<InputWidgetProps>()
 const reactiveType = ref(props.type)
 
 function togglePassword() {
@@ -34,6 +23,7 @@ export interface InputWidgetProps {
   isPassword?: boolean
   min?: number | string
   max?: number | string
+  rules?: any
 }
 </script>
 <template>
@@ -42,7 +32,8 @@ export interface InputWidgetProps {
       label
     }}</label>
     <div class="relative w-full">
-      <input
+      <Field
+        as="input"
         :id="name"
         :name="name"
         :type="reactiveType"
@@ -52,6 +43,7 @@ export interface InputWidgetProps {
         :disabled="disabled"
         :min="min"
         :max="max"
+        :rules="rules"
         :autocomplete="autocomplete"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         class="h-12 px-2 placeholder:text-sm outline-none bg-slate-100 rounded-lg w-full focus:ring-2 focus:ring-primary text-sm"
@@ -68,6 +60,9 @@ export interface InputWidgetProps {
         </button>
       </div>
     </div>
+    <XyzTransition appear mode="out-in" xyz="fade duration-3">
+      <ErrorMessage :name="name" class="text-red-500 text-xs lg:text-sm self-start" />
+    </XyzTransition>
   </div>
 </template>
 
