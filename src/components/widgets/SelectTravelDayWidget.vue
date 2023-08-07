@@ -55,7 +55,7 @@ function isSiblingDate(value: 'next' | 'last') {
 <template>
   <Listbox
     :modelValue="modelValue"
-    @input="$emit('update:modelValue', $event)"
+    @update:model-value="$emit('update:modelValue', $event)"
     as="div"
     class="relative w-full flex items-center gap-2 justify-center select-none"
   >
@@ -69,7 +69,9 @@ function isSiblingDate(value: 'next' | 'last') {
       <ChevronLeftIcon class="h-5 w-5 md:hidden" />
     </button>
 
-    <ListboxButton class="bg-gray-100 w-3/5 h-10 text-gray-600 relative shadow-sm rounded-lg">
+    <ListboxButton
+      class="bg-gray-100 w-3/5 h-10 text-gray-600 relative shadow-sm rounded-lg outline-none"
+    >
       <ListboxLabel class="text-gray-600 text-sm">
         <template v-if="modelValue.message">
           {{ modelValue.message }}
@@ -80,14 +82,13 @@ function isSiblingDate(value: 'next' | 'last') {
     </ListboxButton>
     <XyzTransition xyz="fade in-out duration-2" appear>
       <ListboxOptions
-        class="absolute text-slate-600 text-sm gap-y-3 flex w-3/5 max-h-52 overflow-y-auto top-14 rounded-lg flex-col p-4 bg-gray-50 shadow-lg z-10"
+        class="absolute outline-none text-slate-600 text-sm gap-y-3 flex w-3/5 max-h-52 overflow-y-auto top-14 rounded-lg flex-col p-4 bg-gray-50 shadow-lg z-10"
       >
         <ListboxOption
           v-for="(date, index) in dates"
           :key="index"
           :value="date"
           :disabled="date.message === 'Sélectionnez une date'"
-          @click="emit('update:modelValue', date)"
           v-slot="{ active, selected }"
         >
           <li
