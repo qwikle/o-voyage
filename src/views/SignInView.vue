@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import inputWidget from '@/components/widgets/InputWidget.vue'
+import inputWidget from '@/components/widgets/inputs/InputWidget.vue'
 import ContainerFormWidget from '@/components/widgets/ContainerFormWidget.vue'
 import { useAuthStore } from '@/stores/auth.store'
 import { ref, computed } from 'vue'

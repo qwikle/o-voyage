@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ContainerFormWidget from '@/components/widgets/ContainerFormWidget.vue'
-import inputWidget from '@/components/widgets/InputWidget.vue'
+import inputWidget from '@/components/widgets/inputs/InputWidget.vue'
 import { useAuthStore } from '@/stores/auth.store'
 import { ref, computed } from 'vue'
 import { useHead } from '@unhead/vue'
