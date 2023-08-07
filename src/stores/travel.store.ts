@@ -53,3 +53,5 @@ export const useTravelStore = defineStore('travel', {
     }
   }
 })
+
+export type TravelStore = ReturnType<typeof useTravelStore>
