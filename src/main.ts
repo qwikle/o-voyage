@@ -11,6 +11,7 @@ import { useAlertStore } from './stores/alert.store'
 import { createHead } from '@unhead/vue'
 import { useAuthStore } from './stores/auth.store'
 import { useRoute } from 'vue-router'
+import { useTravelStore } from './stores/travel.store'
 
 const pinia = createPinia()
 
@@ -19,6 +20,7 @@ pinia.use(({ store }) => {
   store.$route = useRoute()
   store.$alert = useAlertStore()
   store.$auth = useAuthStore()
+  store.$travel = useTravelStore()
   store.$axios = markRaw(axios)
 })
 
