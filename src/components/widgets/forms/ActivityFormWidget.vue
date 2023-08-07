@@ -3,6 +3,8 @@ import { ref, type PropType } from 'vue'
 import InputWidget, { type InputWidgetProps } from '@/components/widgets/inputs/InputWidget.vue'
 import ListBoxInputWidget, { type ListBoxInputWidgetProps } from '../inputs/ListBoxInputWidget.vue'
 import type { ITravel } from '@/models'
+import { Form } from 'vee-validate'
+import * as Yup from 'yup'
 const props = defineProps({
   initialDate: {
     type: String,
@@ -23,7 +25,13 @@ const forms = ref<InputWidgetProps[]>([
     required: true,
     disabled: false,
     autocomplete: 'off',
-    isPassword: false
+    isPassword: false,
+    rules: Yup.string()
+      .required("Le nom de l'activité est requis")
+      .matches(
+        /^[a-zA-Z0-9 ]*$/,
+        "Le nom de l'activité ne peut contenir que des lettres et des chiffres"
+      )
   },
   {
     name: 'price',
@@ -35,8 +43,10 @@ const forms = ref<InputWidgetProps[]>([
     disabled: false,
     autocomplete: 'off',
     isPassword: false,
-    min: 0,
-    max: props.travel.budget
+    rules: Yup.number()
+      .required('Le prix est requis')
+      .min(0, 'Le prix ne peut pas être négatif')
+      .max(props.travel.budget, 'Le prix ne peut pas être supérieur au budget')
   },
   {
     name: 'location',
@@ -47,7 +57,10 @@ const forms = ref<InputWidgetProps[]>([
     required: true,
     disabled: false,
     autocomplete: 'off',
-    isPassword: false
+    isPassword: false,
+    rules: Yup.string()
+      .required('Le lieu est requis')
+      .matches(/^[a-zA-Z0-9 ]*$/, 'Le lieu ne peut contenir que des lettres et des chiffres')
   },
   {
     name: 'members',
@@ -59,8 +72,13 @@ const forms = ref<InputWidgetProps[]>([
     disabled: false,
     autocomplete: 'off',
     isPassword: false,
-    min: 1,
-    max: props.travel.numberOfTravelers
+    rules: Yup.number()
+      .required('Le nombre de participants est requis')
+      .min(1, 'Le nombre de participants ne peut pas être négatif')
+      .max(
+        props.travel.numberOfTravelers,
+        'Le nombre de participants ne peut pas être supérieur au nombre de voyageurs'
+      )
   },
   {
     name: 'time',
@@ -71,7 +89,10 @@ const forms = ref<InputWidgetProps[]>([
     required: true,
     disabled: false,
     autocomplete: 'off',
-    isPassword: false
+    isPassword: false,
+    rules: Yup.string()
+      .required("L'heure est requise")
+      .matches(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
   }
 ])
 
@@ -83,6 +104,10 @@ const category = ref<ListBoxInputWidgetProps>({
   ariaLabel: 'Catégorie',
   required: true,
   disabled: false,
+  rules: Yup.object({
+    name: Yup.string().required('La catégorie est requise'),
+    id: Yup.number().required('La catégorie est requise').notOneOf([0], 'La catégorie est requise')
+  }),
   options: [
     { name: 'Activité', id: 1 },
     { name: 'Restaurant', id: 2 },
@@ -91,11 +116,10 @@ const category = ref<ListBoxInputWidgetProps>({
     { name: 'Autre', id: 5 }
   ]
 })
-
 defineEmits(['close'])
 </script>
 <template>
-  <form @submit.prevent="" class="flex flex-col p-4 gap-y-8">
+  <Form class="flex flex-col p-4 gap-y-8">
     <ListBoxInputWidget
       v-model="category.modelValue"
       :options="category.options"
@@ -105,6 +129,7 @@ defineEmits(['close'])
       :ariaLabel="category.ariaLabel"
       :required="category.required"
       :disabled="category.disabled"
+      :rules="category.rules"
     />
     <InputWidget
       v-for="(input, index) in forms"
@@ -120,11 +145,12 @@ defineEmits(['close'])
       :isPassword="input.isPassword"
       :min="input.min"
       :max="input.max"
+      :rules="input.rules"
     />
     <div class="flex flex-col lg:flex-row-reverse gap-2">
-      <button class="btn btn-primary w-full lg:w-1/2">créer</button>
+      <button class="btn btn-primary w-full lg:w-1/2">ajouter</button>
       <button class="btn btn-base w-full lg:w-1/2" @click="$emit('close', false)">annuler</button>
     </div>
-  </form>
+  </Form>
 </template>
 <style scoped></style>
