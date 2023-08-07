@@ -14,6 +14,8 @@ export const activityRoutes = [
       if (!exists) {
         return { name: 'NotFound' }
       }
+      const { useActivityStore } = await import('@/stores/activity.store')
+      useActivityStore().getActivities(to.params.date as string)
     }
   }
 ]
