@@ -7,8 +7,9 @@ import {
   ListboxLabel
 } from '@headlessui/vue'
 import { ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/outline'
-
-defineProps<ListBoxInputWidgetProps>()
+import { useField } from 'vee-validate'
+import { watch } from 'vue'
+const props = defineProps<ListBoxInputWidgetProps>()
 
 export interface ListBoxInputWidgetProps {
   name: string
@@ -19,6 +20,7 @@ export interface ListBoxInputWidgetProps {
   required: boolean
   disabled: boolean
   options: IOption[]
+  rules?: any
 }
 
 interface IOption {
@@ -27,24 +29,43 @@ interface IOption {
   message?: string
 }
 
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
+
+const { value, errorMessage } = useField(props.name, props.rules, {
+  initialValue: props.modelValue
+})
+
+watch(value, (newValue) => {
+  if (newValue !== props.modelValue) {
+    emit('update:modelValue', newValue)
+  }
+})
+
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (newValue !== value.value) {
+      value.value = newValue
+    }
+  }
+)
 </script>
 <template>
   <Listbox
-    :modelValue="modelValue"
+    :modelValue="value"
     @update:modelValue="$emit('update:modelValue', $event)"
     as="div"
-    class="relative w-full flex select-none"
+    class="relative w-full flex flex-col select-none"
     :ariaLabel="ariaLabel"
     by="id"
   >
-    <ListboxLabel class="text-gray-600 text-sm font-bold absolute -top-5 left-0">
+    <ListboxLabel class="self-start text-sm font-semibold absolute -top-5">
       {{ label }}
     </ListboxLabel>
     <ListboxButton
       class="h-12 px-2 placeholder:text-sm outline-none bg-slate-100 rounded-lg w-full focus:ring-2 focus:ring-primary text-sm relative"
     >
-      <p>{{ modelValue.message ?? modelValue.name }}</p>
+      <p>{{ value.message ?? value.name }}</p>
       <ChevronUpDownIcon class="absolute right-2 top-3 h-6 w-6 text-gray-600" />
     </ListboxButton>
     <XyzTransition xyz="fade in-out duration-2" appear>
@@ -72,6 +93,11 @@ defineEmits(['update:modelValue'])
           </li>
         </ListboxOption>
       </ListboxOptions>
+    </XyzTransition>
+    <XyzTransition appear mode="out-in" xyz="fade duration-3">
+      <small v-if="errorMessage" class="text-red-500 text-xs lg:text-sm self-start">
+        {{ errorMessage }}
+      </small>
     </XyzTransition>
   </Listbox>
 </template>
