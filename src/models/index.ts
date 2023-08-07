@@ -2,7 +2,8 @@ import type { User } from './User'
 import { type ITravel, Travel } from './Travel'
 import type { Traveler } from './Traveler'
 import { type ITravelInput, TravelInput } from './inputs/travel.input'
-import type { IActivity } from './activity'
+import { type IActivityInput, ActivityInput } from './inputs/activity.input'
+import { type IActivity, Activity } from './activity'
 import { type ICategory } from './category'
 
 export {
@@ -13,5 +14,8 @@ export {
   TravelInput,
   Travel,
   type IActivity,
-  type ICategory
+  type ICategory,
+  type IActivityInput,
+  ActivityInput,
+  Activity
 }
