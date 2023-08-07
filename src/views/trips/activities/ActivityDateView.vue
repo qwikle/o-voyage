@@ -16,7 +16,7 @@ function setIsOpen(value: boolean) {
 }
 const isDisabled = computed(() => {
   const date = DateTime.now()
-  return date > DateTime.fromISO(travel.arrivalDate)
+  return date > DateTime.fromISO(route.params.date as string)
 })
 </script>
 <template>
@@ -27,14 +27,14 @@ const isDisabled = computed(() => {
         class="btn btn-primary btn-sm self-end"
         :disabled="isDisabled"
       >
-        Créer une activité
+        Ajouter un évènement
       </button>
       <img :src="undrawActivity" alt="activities svg" class="w-full md:w-1/2" />
       <h4 class="text-sm font-semibold italic md:text-lg">
         Vous n'avez aucune activités de prévue pour cette date
       </h4>
     </div>
-    <DialogComponent :show="isOpen" title="Créer une Activité" @close="setIsOpen">
+    <DialogComponent :show="isOpen" title="Créer un évènement" @close="setIsOpen">
       <ActivityFormWidget
         :initialDate="(route.params.date as string)"
         :travel="travel"
