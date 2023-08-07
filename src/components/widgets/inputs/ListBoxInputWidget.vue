@@ -32,36 +32,36 @@ defineEmits(['update:modelValue'])
 <template>
   <Listbox
     :modelValue="modelValue"
-    @input="$emit('update:modelValue', $event)"
+    @update:modelValue="$emit('update:modelValue', $event)"
     as="div"
     class="relative w-full flex select-none"
     :ariaLabel="ariaLabel"
+    by="id"
   >
+    <ListboxLabel class="text-gray-600 text-sm font-bold absolute -top-5 left-0">
+      {{ label }}
+    </ListboxLabel>
     <ListboxButton
       class="h-12 px-2 placeholder:text-sm outline-none bg-slate-100 rounded-lg w-full focus:ring-2 focus:ring-primary text-sm relative"
     >
-      <ListboxLabel class="text-gray-600 text-sm font-bold absolute -top-5 left-0">
-        {{ label }}
-      </ListboxLabel>
       <p>{{ modelValue.message ?? modelValue.name }}</p>
       <ChevronUpDownIcon class="absolute right-2 top-3 h-6 w-6 text-gray-600" />
     </ListboxButton>
     <XyzTransition xyz="fade in-out duration-2" appear>
       <ListboxOptions
-        class="absolute w-full z-10 bg-gray-50 shadow-lg rounded-md overflow-hidden text-start p-3 top-14 flex flex-col gap-y-2"
+        class="absolute w-full z-10 bg-gray-50 shadow-lg rounded-md overflow-hidden text-start p-3 top-14 flex flex-col gap-y-2 outline-none"
       >
         <ListboxOption
           v-for="(option, index) in options"
           :key="index"
           :value="option"
           :disabled="option.message ? true : false"
-          @click="$emit('update:modelValue', option)"
-          v-slot="{ selected }"
+          v-slot="{ active, selected }"
           class="cursor-pointer relative hover:bg-primary hover:text-white rounded-md"
         >
           <li
             class="cursor-pointer py-2 pl-3 pr-9 hover:bg-primary rounded-md hover:text-white flex justify-between"
-            :class="{ 'bg-primary text-white': selected }"
+            :class="{ 'bg-primary text-white': selected || active }"
           >
             {{ option.name }}
             <CheckIcon
