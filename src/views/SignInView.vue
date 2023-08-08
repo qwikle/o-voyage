@@ -34,8 +34,7 @@ const forms = ref<InputWidgetProps[]>([
     placeholder: 'Entrez votre email',
     disabled: false,
     autocomplete: 'email',
-    isPassword: false,
-    rules: Yup.string().email('Email invalide').required('Email requis')
+    isPassword: false
   },
   {
     name: 'password',
@@ -46,10 +45,14 @@ const forms = ref<InputWidgetProps[]>([
     required: true,
     disabled: false,
     autocomplete: 'current-password',
-    isPassword: true,
-    rules: Yup.string().required('Mot de passe requis')
+    isPassword: true
   }
 ])
+
+const schema = Yup.object().shape({
+  email: Yup.string().email('Email invalide').required('Email requis'),
+  password: Yup.string().required('Mot de passe requis')
+})
 
 const route = useRoute()
 const signUp = computed(() => {
@@ -58,15 +61,11 @@ const signUp = computed(() => {
 async function submitForm(form: unknown) {
   await authStore.signIn(form as SignInInput)
 }
-
-const isDisabled = computed(() => {
-  return forms.value[0].value === '' || forms.value[1].value === ''
-})
 </script>
 
 <template>
   <ContainerFormWidget title="Connexion">
-    <Form @submit="submitForm" class="flex flex-col gap-8">
+    <Form @submit="submitForm" class="flex flex-col gap-8" :validation-schema="schema">
       <inputWidget
         v-for="form in forms"
         :key="form.label"
@@ -79,14 +78,8 @@ const isDisabled = computed(() => {
         :disabled="form.disabled"
         :autocomplete="form.autocomplete"
         :isPassword="form.isPassword"
-        :rules="form.rules"
       />
-      <button
-        aria-label="submit"
-        type="submit"
-        class="btn btn-primary w-full"
-        :disabled="isDisabled"
-      >
+      <button aria-label="se connecter" type="submit" class="btn btn-primary w-full">
         Se connecter
       </button>
     </Form>

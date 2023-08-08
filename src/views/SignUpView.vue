@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import ContainerFormWidget from '@/components/widgets/ContainerFormWidget.vue'
-import inputWidget from '@/components/widgets/inputs/InputWidget.vue'
+import inputWidget, { type InputWidgetProps } from '@/components/widgets/inputs/InputWidget.vue'
 import { useAuthStore } from '@/stores/auth.store'
 import { ref, computed } from 'vue'
 import { useHead } from '@unhead/vue'
 import { useRoute } from 'vue-router'
-
+import { Form } from 'vee-validate'
+import * as Yup from 'yup'
+import type { SignUpInput } from '@/services/auth/auth.service'
 useHead({
   title: 'Inscription',
   meta: [
@@ -20,7 +22,7 @@ useHead({
   ]
 })
 
-const forms = ref([
+const forms = ref<InputWidgetProps[]>([
   {
     name: 'email',
     label: 'Email',
@@ -77,32 +79,33 @@ const forms = ref([
     isPassword: true
   }
 ])
-const authStore = useAuthStore()
 
-const isDisabled = computed(() => {
-  return (
-    forms.value[0].value === '' ||
-    forms.value[1].value === '' ||
-    forms.value[2].value === '' ||
-    forms.value[3].value === '' ||
-    forms.value[4].value === ''
-  )
+const schema = Yup.object().shape({
+  email: Yup.string().email('Email invalide').required('Email requis'),
+  firstname: Yup.string()
+    .required('Prénom requis')
+    .min(2, 'Prénom trop court')
+    // can match letters and - only
+    .matches(/^[a-zA-Z-]+$/, 'Prénom invalide'),
+  lastname: Yup.string()
+    .required('Nom requis')
+    .min(2, 'Nom trop court')
+    .matches(/^[a-zA-Z-]+$/, 'Nom invalide'),
+  password: Yup.string()
+    .required('Mot de passe requis')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, {
+      message: 'Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre',
+      excludeEmptyString: true
+    }),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password')], 'Les mots de passe ne correspondent pas')
+    .required('Confirmation du mot de passe requis')
 })
 
-async function submitForm(event: Event) {
-  event.preventDefault()
-  const email = forms.value[0].value
-  const firstname = forms.value[1].value
-  const lastname = forms.value[2].value
-  const password = forms.value[3].value
-  const confirmPassword = forms.value[4].value
-  await authStore.signUp({
-    email,
-    firstname,
-    lastname,
-    password,
-    confirmPassword
-  })
+const authStore = useAuthStore()
+
+async function submitForm(form: unknown) {
+  await authStore.signUp(form as SignUpInput)
 }
 
 const route = useRoute()
@@ -112,7 +115,7 @@ const signIn = computed(() => {
 </script>
 <template>
   <ContainerFormWidget title="Inscription">
-    <form @submit="submitForm" class="flex flex-col gap-8">
+    <Form @submit="submitForm" class="flex flex-col gap-8 md:max-w-md" :validation-schema="schema">
       <inputWidget
         v-for="form in forms"
         :key="form.label"
@@ -125,11 +128,10 @@ const signIn = computed(() => {
         :disabled="form.disabled"
         :autocomplete="form.autocomplete"
         :isPassword="form.isPassword"
+        :rules="form.rules"
       />
-      <button class="btn btn-primary w-full" :disabled="isDisabled" aria-label="submit">
-        S'inscrire
-      </button>
-    </form>
+      <button class="btn btn-primary w-full" aria-label="submit">S'inscrire</button>
+    </Form>
     <div class="flex">
       <span>Déjà inscris ?</span>
       <RouterLink :to="signIn" class="text-primary ml-2"> Connectez-vous </RouterLink>
