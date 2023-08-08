@@ -20,20 +20,23 @@ export interface ListBoxInputWidgetProps {
   required: boolean
   disabled: boolean
   options: IOption[]
-  rules?: any
+  by?: any
 }
 
 interface IOption {
   name: string
   id: number
-  message?: string
 }
 
 const emit = defineEmits(['update:modelValue'])
 
-const { value, errorMessage } = useField(props.name, props.rules, {
-  initialValue: props.modelValue
-})
+const { value, errorMessage } = useField(
+  props.name,
+  {},
+  {
+    initialValue: props.modelValue
+  }
+)
 
 watch(value, (newValue) => {
   if (newValue !== props.modelValue) {
@@ -65,7 +68,7 @@ watch(
     <ListboxButton
       class="h-12 px-2 placeholder:text-sm outline-none bg-slate-100 rounded-lg w-full focus:ring-2 focus:ring-primary text-sm relative"
     >
-      <p>{{ value.message ?? value.name }}</p>
+      <p>{{ value.name ? value.name : `Séléctionnez un(e) ${label}` }}</p>
       <ChevronUpDownIcon class="absolute right-2 top-3 h-6 w-6 text-gray-600" />
     </ListboxButton>
     <XyzTransition xyz="fade in-out duration-2" appear>
@@ -76,7 +79,7 @@ watch(
           v-for="(option, index) in options"
           :key="index"
           :value="option"
-          :disabled="option.message ? true : false"
+          :disabled="option ? false : true"
           v-slot="{ active, selected }"
           class="cursor-pointer relative hover:bg-primary hover:text-white rounded-md"
         >
