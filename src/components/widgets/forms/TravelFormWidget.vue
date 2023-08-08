@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import inputWidget, { type InputWidgetProps } from '@/components/widgets/inputs/InputWidget.vue'
-import SelectInputWidget from '@/components/widgets/inputs/SelectInputWidget.vue'
+import SelectInputWidget, {
+  type SelectInputWidgetProps
+} from '@/components/widgets/inputs/SelectInputWidget.vue'
 import countryData from '@/datas/countries.json'
+import { Form } from 'vee-validate'
+import * as yup from 'yup'
+import { DateTime } from 'luxon'
+
 defineProps({
   isDialog: {
     type: Boolean,
@@ -11,17 +17,15 @@ defineProps({
   }
 })
 
-const options = ref([] as { name: string }[])
-const destination = ref({
+const options = ref<string[]>([])
+const destination = ref<SelectInputWidgetProps>({
   name: 'to',
-  value: '',
   label: 'Destination',
-  type: 'text',
+  modelValue: '',
   placeholder: 'Entrez votre destination',
   required: true,
   disabled: false,
-  autocomplete: 'off',
-  isPassword: false
+  options: []
 })
 
 const forms = ref<InputWidgetProps[]>([
@@ -78,23 +82,53 @@ const forms = ref<InputWidgetProps[]>([
   }
 ])
 
+const schema = yup.object().shape({
+  to: yup.string().required('Destination requise'),
+  departureDate: yup
+    .date()
+    .required('Date de départ requise')
+    .min(
+      DateTime.now().minus({ days: 1 }),
+      'La date de départ doit être égale ou supérieure à la date du jour'
+    )
+    .max(
+      yup.ref('arrivalDate'),
+      "La date de départ doit être égale ou inférieure à la date d'arrivée"
+    ),
+  arrivalDate: yup
+    .date()
+    .required("Date d'arrivée requise")
+    .min(
+      yup.ref('departureDate'),
+      "La date d'arrivée doit être égale ou supérieure à la date de départ"
+    ),
+  numberOfTravelers: yup
+    .number()
+    .required('Nombre de voyageurs requis')
+    .min(1, 'Nombre de voyageurs minimum 1')
+    .max(20, 'Nombre de voyageurs maximum 20'),
+  budget: yup
+    .number()
+    .required('Budget requis')
+    .min(500, 'Budget minimum 500')
+    .max(10000, 'Budget maximum 10000'),
+  title: yup
+    .string()
+    .required('Titre du voyage requis')
+    .matches(/^[a-zA-Z0-9 ]*$/, 'Titre du voyage invalide')
+})
+
 async function getOptions(event: InputEvent) {
-  destination.value.value = (event.target as HTMLInputElement).value
-  if (destination.value.value.length < 3) {
+  destination.value.modelValue = (event.target as HTMLInputElement).value
+  if (destination.value.modelValue.length < 3) {
     options.value = []
     return
   }
   options.value = countryData
-    .filter((country) => country.name.toLowerCase().includes(destination.value.value.toLowerCase()))
-    .map((country) => ({
-      name: country.name
-    }))
-}
-
-function mapForm() {
-  return forms.value.map((form) => ({
-    [form.name]: form.value
-  }))
+    .filter((country) =>
+      country.name.toLowerCase().includes(destination.value.modelValue.toLowerCase())
+    )
+    .map((country) => country.name)
 }
 
 defineEmits(['submit', 'close'])
@@ -107,13 +141,9 @@ defineEmits(['submit', 'close'])
     >
       Préparez votre voyage dès maintenant !
     </h1>
-    <form
-      @submit.prevent="
-        $emit('submit', {
-          to: destination.value,
-          ...Object.assign({}, ...mapForm())
-        })
-      "
+    <Form
+      @submit="$emit('submit', $event)"
+      :validation-schema="schema"
       class="flex flex-col gap-y-6 px-10 items-center lg:flex-row lg:justify-center lg:gap-x-4 lg:h-24"
       :class="
         isDialog
@@ -127,10 +157,9 @@ defineEmits(['submit', 'close'])
         :placeholder="destination.placeholder"
         :required="destination.required"
         :disabled="destination.disabled"
-        :autocomplete="destination.autocomplete"
         :options="options"
         @change="getOptions"
-        v-model="destination.value"
+        v-model="destination.modelValue"
       />
       <inputWidget
         v-for="form in forms"
@@ -163,6 +192,6 @@ defineEmits(['submit', 'close'])
           annuler
         </button>
       </div>
-    </form>
+    </Form>
   </section>
 </template>
