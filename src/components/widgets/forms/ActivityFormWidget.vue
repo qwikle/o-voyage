@@ -25,13 +25,7 @@ const forms = ref<InputWidgetProps[]>([
     required: true,
     disabled: false,
     autocomplete: 'off',
-    isPassword: false,
-    rules: Yup.string()
-      .required("Le nom de l'activité est requis")
-      .matches(
-        /^[a-zA-Z0-9 ]*$/,
-        "Le nom de l'activité ne peut contenir que des lettres et des chiffres"
-      )
+    isPassword: false
   },
   {
     name: 'price',
@@ -42,11 +36,7 @@ const forms = ref<InputWidgetProps[]>([
     required: true,
     disabled: false,
     autocomplete: 'off',
-    isPassword: false,
-    rules: Yup.number()
-      .required('Le prix est requis')
-      .min(0, 'Le prix ne peut pas être négatif')
-      .max(props.travel.budget, 'Le prix ne peut pas être supérieur au budget')
+    isPassword: false
   },
   {
     name: 'location',
@@ -57,10 +47,7 @@ const forms = ref<InputWidgetProps[]>([
     required: true,
     disabled: false,
     autocomplete: 'off',
-    isPassword: false,
-    rules: Yup.string()
-      .required('Le lieu est requis')
-      .matches(/^[a-zA-Z0-9 ]*$/, 'Le lieu ne peut contenir que des lettres et des chiffres')
+    isPassword: false
   },
   {
     name: 'members',
@@ -71,14 +58,7 @@ const forms = ref<InputWidgetProps[]>([
     required: true,
     disabled: false,
     autocomplete: 'off',
-    isPassword: false,
-    rules: Yup.number()
-      .required('Le nombre de participants est requis')
-      .min(1, 'Le nombre de participants ne peut pas être négatif')
-      .max(
-        props.travel.numberOfTravelers,
-        'Le nombre de participants ne peut pas être supérieur au nombre de voyageurs'
-      )
+    isPassword: false
   },
   {
     name: 'time',
@@ -89,25 +69,18 @@ const forms = ref<InputWidgetProps[]>([
     required: true,
     disabled: false,
     autocomplete: 'off',
-    isPassword: false,
-    rules: Yup.string()
-      .required("L'heure est requise")
-      .matches(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
+    isPassword: false
   }
 ])
 
 const category = ref<ListBoxInputWidgetProps>({
   name: 'category',
   label: 'Catégorie',
-  modelValue: { name: '', id: 0, message: 'Sélectionnez une catégorie' },
+  modelValue: { name: '', id: 0 },
   placeholder: 'Catégorie',
   ariaLabel: 'Catégorie',
   required: true,
   disabled: false,
-  rules: Yup.object({
-    name: Yup.string().required('La catégorie est requise'),
-    id: Yup.number().required('La catégorie est requise').notOneOf([0], 'La catégorie est requise')
-  }),
   options: [
     { name: 'Activité', id: 1 },
     { name: 'Restaurant', id: 2 },
@@ -116,10 +89,25 @@ const category = ref<ListBoxInputWidgetProps>({
     { name: 'Autre', id: 5 }
   ]
 })
+
+const schema = Yup.object({
+  name: Yup.string().required("Le nom de l'activité est requis"),
+  price: Yup.number().required('Le prix est requis'),
+  location: Yup.string().required('Le lieu est requis'),
+  members: Yup.number().required('Le nombre de participants est requis'),
+  time: Yup.string()
+    .required("L'heure est requise")
+    .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'L\'heure doit être au format "HH:MM"'),
+  category: Yup.object().shape({
+    name: Yup.string().required('La catégorie est requise'),
+    id: Yup.number().required('La catégorie est requise')
+  })
+})
+
 defineEmits(['close'])
 </script>
 <template>
-  <Form class="flex flex-col p-4 gap-y-8">
+  <Form class="flex flex-col p-4 gap-y-8" :validation-schema="schema">
     <ListBoxInputWidget
       v-model="category.modelValue"
       :options="category.options"
@@ -129,7 +117,6 @@ defineEmits(['close'])
       :ariaLabel="category.ariaLabel"
       :required="category.required"
       :disabled="category.disabled"
-      :rules="category.rules"
     />
     <InputWidget
       v-for="(input, index) in forms"
@@ -143,9 +130,6 @@ defineEmits(['close'])
       :disabled="input.disabled"
       :autocomplete="input.autocomplete"
       :isPassword="input.isPassword"
-      :min="input.min"
-      :max="input.max"
-      :rules="input.rules"
     />
     <div class="flex flex-col lg:flex-row-reverse gap-2">
       <button class="btn btn-primary w-full lg:w-1/2">ajouter</button>
