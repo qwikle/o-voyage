@@ -128,7 +128,6 @@ const signIn = computed(() => {
         :disabled="form.disabled"
         :autocomplete="form.autocomplete"
         :isPassword="form.isPassword"
-        :rules="form.rules"
       />
       <button class="btn btn-primary w-full" aria-label="submit">S'inscrire</button>
     </Form>
