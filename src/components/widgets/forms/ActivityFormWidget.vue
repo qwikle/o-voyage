@@ -92,9 +92,18 @@ const category = ref<ListBoxInputWidgetProps>({
 
 const schema = Yup.object({
   name: Yup.string().required("Le nom de l'activité est requis"),
-  price: Yup.number().required('Le prix est requis'),
+  price: Yup.number()
+    .required('Le prix est requis')
+    .min(0, 'Le prix doit être positif')
+    .max(props.travel.budget, 'Le prix ne doit pas dépasser le budget'),
   location: Yup.string().required('Le lieu est requis'),
-  members: Yup.number().required('Le nombre de participants est requis'),
+  members: Yup.number()
+    .required('Le nombre de participants est requis')
+    .min(1, 'Le nombre de participants doit être positif')
+    .max(
+      props.travel.numberOfTravelers,
+      'Le nombre de participants ne doit pas dépasser le nombre de voyageurs'
+    ),
   time: Yup.string()
     .required("L'heure est requise")
     .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'L\'heure doit être au format "HH:MM"'),
