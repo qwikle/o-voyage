@@ -19,7 +19,7 @@ defineProps({
 })
 </script>
 <template>
-  <article class="hero" :class="bgArticle">
+  <article class="hero xl:rounded-md" :class="bgArticle">
     <div
       class="hero-content flex-col"
       :class="{
