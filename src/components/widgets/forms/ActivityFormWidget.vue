@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { ref, type PropType } from 'vue'
 import InputWidget, { type InputWidgetProps } from '@/components/widgets/inputs/InputWidget.vue'
-import ListBoxInputWidget, { type ListBoxInputWidgetProps } from '../inputs/ListBoxInputWidget.vue'
-import type { ITravel } from '@/models'
+import ListBoxInputWidget, {
+  type ListBoxInputWidgetProps
+} from '@/components/widgets/inputs/ListBoxInputWidget.vue'
+import type { ActivityInput, ITravel } from '@/models'
 import { Form } from 'vee-validate'
 import * as Yup from 'yup'
+import { useActivityStore } from '@/stores/activity.store'
+import { useCategoryStore } from '@/stores/category.store'
 const props = defineProps({
   initialDate: {
     type: String,
@@ -72,7 +76,8 @@ const forms = ref<InputWidgetProps[]>([
     isPassword: false
   }
 ])
-
+const activityStore = useActivityStore()
+const categories = useCategoryStore().categories
 const category = ref<ListBoxInputWidgetProps>({
   name: 'category',
   label: 'Catégorie',
@@ -81,13 +86,7 @@ const category = ref<ListBoxInputWidgetProps>({
   ariaLabel: 'Catégorie',
   required: true,
   disabled: false,
-  options: [
-    { name: 'Activité', id: 1 },
-    { name: 'Restaurant', id: 2 },
-    { name: 'Hébergement', id: 3 },
-    { name: 'Transport', id: 4 },
-    { name: 'Autre', id: 5 }
-  ]
+  options: categories
 })
 
 const schema = Yup.object({
@@ -113,10 +112,36 @@ const schema = Yup.object({
   })
 })
 
-defineEmits(['close'])
+const emit = defineEmits(['close'])
+
+async function submitForm(form: Record<string, unknown>) {
+  try {
+    const activity: ActivityInput = {
+      name: form.name as string,
+      price: form.price as number,
+      location: form.location as string,
+      members: form.members as number,
+      time: form.time as string,
+      date: props.initialDate,
+      categoryId: (form.category as { id: number }).id,
+      travelId: props.travel.id
+    }
+    await activityStore.createActivity(activity)
+    activityStore.$alert.showAlert({
+      message: 'Activité ajoutée avec succès',
+      type: 'success'
+    })
+    emit('close', false)
+  } catch (error) {
+    activityStore.$alert.showAlert({
+      message: error as string,
+      type: 'error'
+    })
+  }
+}
 </script>
 <template>
-  <Form class="flex flex-col p-4 gap-y-8" :validation-schema="schema">
+  <Form class="flex flex-col p-4 gap-y-8" :validation-schema="schema" @submit="submitForm">
     <ListBoxInputWidget
       v-model="category.modelValue"
       :options="category.options"
