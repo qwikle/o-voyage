@@ -11,7 +11,9 @@ export const travelRoutes = [
     },
     beforeEnter: async () => {
       const { useTravelStore } = await import('@/stores/travel.store')
+      const { useCategoryStore } = await import('@/stores/category.store')
       await useTravelStore().getTravels()
+      await useCategoryStore().getCategories()
     },
     children: [
       {
