@@ -34,7 +34,7 @@ defineEmits(['close'])
           class="fixed inset-0 flex items-center justify-center p-4 bg-black/30"
           aria-hidden="true"
         >
-          <DialogPanel class="shadow mx-auto w-3/4 lg:max-w-3xl rounded-xl bg-white py-4">
+          <DialogPanel class="shadow mx-auto w-4/5 lg:max-w-3xl rounded-xl bg-white py-4">
             <div class="flex flex-col gap-4">
               <DialogTitle class="text-center text-2xl font-bold text-slate-700">
                 {{ title }}
