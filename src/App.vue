@@ -5,7 +5,7 @@ import AlertWidget from './components/AlertComponent.vue'
 
 <template>
   <HeaderComponent />
-  <main>
+  <main class="max-w-7xl mx-auto">
     <RouterView v-slot="{ Component }">
       <XyzTransition appear mode="out-in" xyz="fade duration-3">
         <component :is="Component" />
