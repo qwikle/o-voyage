@@ -65,7 +65,11 @@ async function submitForm(form: unknown) {
 
 <template>
   <ContainerFormWidget title="Connexion">
-    <Form @submit="submitForm" class="flex flex-col gap-8" :validation-schema="schema">
+    <Form
+      @submit="submitForm"
+      class="flex flex-col gap-8 w-3/4 md:w-96"
+      :validation-schema="schema"
+    >
       <inputWidget
         v-for="form in forms"
         :key="form.label"

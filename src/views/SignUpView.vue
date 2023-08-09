@@ -115,7 +115,11 @@ const signIn = computed(() => {
 </script>
 <template>
   <ContainerFormWidget title="Inscription">
-    <Form @submit="submitForm" class="flex flex-col gap-8 md:max-w-md" :validation-schema="schema">
+    <Form
+      @submit="submitForm"
+      class="flex flex-col gap-8 w-3/4 md:w-96"
+      :validation-schema="schema"
+    >
       <inputWidget
         v-for="form in forms"
         :key="form.label"
