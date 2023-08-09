@@ -29,10 +29,12 @@ const isDisabled = computed(() => {
       >
         Ajouter un évènement
       </button>
-      <img :src="undrawActivity" alt="activities svg" class="w-full md:w-1/2" />
-      <h4 class="text-sm font-semibold italic md:text-lg">
-        Vous n'avez aucune activités de prévue pour cette date
-      </h4>
+      <div class="flex flex-col items-center" v-if="!activities.length">
+        <img :src="undrawActivity" alt="activities svg" class="w-full md:w-1/2" />
+        <h4 class="text-sm font-semibold italic md:text-lg">
+          Vous n'avez aucune activités de prévue pour cette date
+        </h4>
+      </div>
     </div>
     <DialogComponent :show="isOpen" title="Créer un évènement" @close="setIsOpen">
       <ActivityFormWidget
