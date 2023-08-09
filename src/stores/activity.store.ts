@@ -9,6 +9,11 @@ export const useActivityStore = defineStore('activity', {
   actions: {
     getActivities(date: string) {
       this.activities = this.$travel.travel!.activities.filter((activity) => activity.date === date)
+    },
+
+    async createActivity(activityInput: ActivityInput) {
+      const activity = await activityService.createActivity(activityInput)
+      this.activities.push(activity)
     }
   }
 })
