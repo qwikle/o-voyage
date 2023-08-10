@@ -7,29 +7,29 @@ import { useRoute } from 'vue-router'
 import { useTravelStore } from '@/stores/travel.store'
 import { DateTime } from 'luxon'
 import { useActivityStore } from '@/stores/activity.store'
-import { useCategoryStore } from '@/stores/category.store'
-import { ArrowDownIcon, ArrowRightIcon } from '@heroicons/vue/24/outline'
+import TimelineWidget from '@/components/widgets/TimelineWidget.vue'
+
 const route = useRoute()
 const travel = useTravelStore().travel!
 const activityStore = useActivityStore()
-const categoryStore = useCategoryStore()
 const isOpen = ref(false)
 function setIsOpen(value: boolean) {
   isOpen.value = value
 }
 const isDisabled = computed(() => {
-  const date = DateTime.now()
-  return date > DateTime.fromISO(route.params.date as string)
+  const date = DateTime.now().toFormat('yyyy-MM-dd')
+  return date > DateTime.fromISO(route.params.date as string).toFormat('yyyy-MM-dd')
 })
-const activities = computed(() => activityStore.activities)
+const activities = computed(() => {
+  const allActivities = activityStore.activities
+  return allActivities.sort((a, b) => {
+    return a.time > b.time ? 1 : -1
+  })
+})
 
 onMounted(() => {
   activityStore.getActivities(route.params.date as string)
 })
-
-function getActivityCategory(id: number) {
-  return categoryStore.categories.find((category) => category.id === id)?.name
-}
 
 watch(
   () => route.params.date,
@@ -50,27 +50,7 @@ watch(
       >
         Ajouter un évènement
       </button>
-      <div
-        class="flex flex-col p-6 items-center gap-y-6 lg:gap-x-4 lg:flex-row w-full lg:flex-wrap"
-        v-if="activities.length"
-      >
-        <article
-          v-for="(activity, index) in activities"
-          :key="activity.id"
-          class="bg-blue-100 p-4 w-96 h-44 rounded-md shadow-md relative"
-        >
-          <h2 class="font-bold text-lg">{{ getActivityCategory(activity.categoryId) }}</h2>
-          <p>{{ activity.time }}</p>
-          <ArrowRightIcon
-            v-if="index + 1 !== activities.length"
-            class="absolute top-20 -right-4 w-6 h-6 text-emerald-500 hidden lg:block"
-          />
-          <ArrowDownIcon
-            v-if="index + 1 !== activities.length"
-            class="absolute -bottom-5 right-1/2 w-6 h-6 text-emerald-500 lg:hidden"
-          />
-        </article>
-      </div>
+      <TimelineWidget :activities="activities" v-if="activities.length" />
       <div class="flex flex-col items-center" v-else>
         <img :src="undrawActivity" alt="activities svg" class="w-full md:w-1/2" />
         <h4 class="text-sm font-semibold italic md:text-lg">
