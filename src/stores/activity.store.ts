@@ -14,6 +14,7 @@ export const useActivityStore = defineStore('activity', {
     async createActivity(activityInput: ActivityInput) {
       const activity = await activityService.createActivity(activityInput)
       this.activities.push(activity)
+      this.$travel.travel!.activities.push(activity)
     }
   }
 })
