@@ -58,12 +58,12 @@ const percentageBudgetLeft = computed(() => {
       <div class="flex justify-between text-sm lg:text-md font-light">
         <div class="flex flex-col">
           <p>Budget total</p>
-          <span class="text-emerald-600 text-center">{{ travel.budget }}€</span>
+          <span class="text-emerald-600 text-center font-semibold">{{ travel.budget }}€</span>
         </div>
         <div class="flex flex-col">
           <p>Budget restant</p>
           <span
-            class="text-center"
+            class="text-center font-semibold"
             :class="{
               'text-emerald-600': percentageBudgetLeft > 75,
               'text-yellow-600': percentageBudgetLeft > 40 && percentageBudgetLeft < 75,
