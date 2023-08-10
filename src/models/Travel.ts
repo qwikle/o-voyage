@@ -1,6 +1,5 @@
-import { Traveler, type ITraveler } from './Traveler'
+import { type IActivity, type ITraveler, Traveler, Activity } from '@/models'
 import { DateTime } from 'luxon'
-import type { IActivity } from './activity'
 export interface ITravel {
   id: number
   title: string
@@ -55,7 +54,7 @@ export class Travel implements ITravel {
     this.invitationLink = travel.invitationLink
     this.travelers = travel.travelers.filter((traveler) => new Traveler(traveler))
     this.dateList = this.getListOfDatesFromTwoDates(travel.departureDate, travel.arrivalDate)
-    this.activities = travel.activities
+    this.activities = travel.activities.map((activity) => new Activity(activity))
   }
 
   get status(): string {

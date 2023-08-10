@@ -1,4 +1,5 @@
 import type { ITravel, ICategory } from '@/models'
+import { DateTime } from 'luxon'
 
 export interface IActivity {
   id: number
@@ -33,7 +34,7 @@ export class Activity implements IActivity {
     this.price = activity.price
     this.location = activity.location
     this.members = activity.members
-    this.time = activity.time
+    this.time = DateTime.fromISO(activity.time).toFormat('HH:mm')
     this.date = activity.date
     this.travelId = activity.travelId
     this.categoryId = activity.categoryId
