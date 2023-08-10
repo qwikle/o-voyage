@@ -115,17 +115,14 @@ const schema = Yup.object({
 const emit = defineEmits(['close'])
 
 async function submitForm(form: Record<string, unknown>) {
+  const { category, ...rest } = form
   try {
-    const activity: ActivityInput = {
-      name: form.name as string,
-      price: form.price as number,
-      location: form.location as string,
-      members: form.members as number,
-      time: form.time as string,
+    const activity = {
+      ...rest,
       date: props.initialDate,
-      categoryId: (form.category as { id: number }).id,
-      travelId: props.travel.id
-    }
+      travelId: props.travel.id,
+      categoryId: (category as { id: number }).id
+    } as ActivityInput
     await activityStore.createActivity(activity)
     activityStore.$alert.showAlert({
       message: 'Activité ajoutée avec succès',
