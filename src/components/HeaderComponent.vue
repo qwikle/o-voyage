@@ -61,7 +61,7 @@ const menus = computed(() => {
               v-else
               :to="menu.path"
               class="flex items-center text-lg font-semibold py-1 px-2 rounded hover:bg-white hover:text-slate-800"
-              active-class="bg-white text-slate-800"
+              exact-active-class="bg-white text-slate-800"
               >{{ menu.label }}</RouterLink
             >
           </li>
