@@ -13,10 +13,7 @@ const image = ref()
 
 watchEffect(async () => {
   const country = countries.find((country) => country.name === props.name)
-  if (country) {
-    const { default: src } = await import(/*@vite-ignore*/ `/svg/${country.code.toLowerCase()}.svg`)
-    image.value = src
-  }
+  image.value = `${import.meta.env.VITE_BASE_URL}/svg/${country.code.toLocaleLowerCase()}.svg`
 })
 </script>
 <template>
