@@ -38,7 +38,10 @@ export const useTravelStore = defineStore('travel', {
     async deleteTravel(travelId: number) {
       try {
         await travelService.deleteTravel(travelId)
-        this.travels = this.travels.filter((travel) => travel.id !== travelId)
+        this.travels.splice(
+          this.travels.findIndex((travel) => travel.id === travelId),
+          1
+        )
         this.$alert.showAlert({
           message: 'Le voyage a bien été supprimé',
           type: 'success'
