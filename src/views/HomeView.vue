@@ -11,6 +11,8 @@ import mountain from '@/assets/mountain.jpg'
 import zetong from '@/assets/zetong.jpg'
 import CarouselWidget from '@/components/widgets/CarouselWidget.vue'
 import { useHead } from '@unhead/vue'
+import { type ITravelInput } from '@/models'
+import { useRouter } from 'vue-router'
 useHead({
   title: 'Ovoyage le super site de voyage',
   meta: [
@@ -94,10 +96,14 @@ const articles = [
     bgArticle: 'bg-indigo-100'
   }
 ]
+const router = useRouter()
+function handleSubmit(travel: ITravelInput) {
+  router.push({ name: 'Trips', query: travel as any })
+}
 </script>
 <template>
   <div class="flex flex-col gap-y-6">
-    <TravelFormWidget />
+    <TravelFormWidget @submit="handleSubmit" />
     <CarouselWidget :images="images" />
     <HeroArticleWidget
       v-for="article in articles"
