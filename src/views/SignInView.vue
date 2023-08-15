@@ -56,7 +56,7 @@ const schema = Yup.object().shape({
 
 const route = useRoute()
 const signUp = computed(() => {
-  return route.query.redirect ? `/signup?redirect=${route.query.redirect}` : '/signup'
+  return route.query.redirect ? `/signup${route.fullPath.replace('/signin', '')}` : '/signup'
 })
 async function submitForm(form: unknown) {
   await authStore.signIn(form as SignInInput)

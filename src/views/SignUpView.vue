@@ -110,7 +110,8 @@ async function submitForm(form: unknown) {
 
 const route = useRoute()
 const signIn = computed(() => {
-  return route.query.redirect ? `/signin?redirect=${route.query.redirect}` : '/signin'
+  console.log(route.query)
+  return route.query.redirect ? `/signin${route.fullPath.replace('/signup', '')}` : '/signin'
 })
 </script>
 <template>
