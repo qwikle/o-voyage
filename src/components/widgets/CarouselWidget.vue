@@ -12,7 +12,7 @@ const props = defineProps({
     required: true
   }
 })
-let interval: number
+let interval: any
 
 onMounted(() => {
   const carousel = document.querySelector('.carousel')
