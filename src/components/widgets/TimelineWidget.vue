@@ -41,7 +41,7 @@ function getActivityCategory(id: number) {
 <template>
   <div class="flex flex-col py-6 px-12 lg:gap-x-4 w-full relative" v-if="activities.length">
     <div class="flex flex-col w-full" v-for="(activity, index) in activities" :key="activity.id">
-      <TimeLineIconWidget :categoryId="activity.category!.id" class="h-24 relative md:hidden" />
+      <TimeLineIconWidget :categoryId="activity.categoryId" class="h-24 relative md:hidden" />
       <article
         class="md:w-[45%] h-28 rounded flex flex-col gap-y-1 p-4"
         :class="SetActivityLeftRight(index, activity.categoryId)"
@@ -52,7 +52,7 @@ function getActivityCategory(id: number) {
         </p>
         <p class="text-sm">{{ activity.members }} participants</p>
         <TimeLineIconWidget
-          :categoryId="activity.category!.id"
+          :categoryId="activity.categoryId"
           class="h-32 absolute right-1/2 hidden md:block"
         />
       </article>
