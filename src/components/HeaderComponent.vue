@@ -28,11 +28,11 @@ const menus = computed(() => {
   return [
     {
       label: 'Connexion',
-      path: route.query.redirect ? `/signin?redirect=${route.query.redirect}` : '/signin'
+      path: route.query.redirect ? `/signin${route.fullPath.replace('/signup', '')}` : '/signin'
     },
     {
       label: 'Inscription',
-      path: route.query.redirect ? `/signup?redirect=${route.query.redirect}` : '/signup'
+      path: route.query.redirect ? `/signup${route.fullPath.replace('/signin', '')}` : '/signup'
     }
   ]
 })
