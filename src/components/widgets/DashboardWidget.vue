@@ -57,10 +57,6 @@ const percentageBudgetLeft = computed(() => {
     <CardDashboardWidget title="Budget" icon="BanknotesIcon" color="emerald">
       <div class="flex justify-between text-sm lg:text-md font-light">
         <div class="flex flex-col">
-          <p>Budget total</p>
-          <span class="text-emerald-600 text-center font-semibold">{{ travel.budget }}€</span>
-        </div>
-        <div class="flex flex-col">
           <p>Budget restant</p>
           <span
             class="text-center font-semibold"
@@ -71,6 +67,10 @@ const percentageBudgetLeft = computed(() => {
             }"
             >{{ budgetLeft }}€</span
           >
+        </div>
+        <div class="flex flex-col">
+          <p>Budget total</p>
+          <span class="text-emerald-600 text-center font-semibold">{{ travel.budget }}€</span>
         </div>
       </div>
     </CardDashboardWidget>
