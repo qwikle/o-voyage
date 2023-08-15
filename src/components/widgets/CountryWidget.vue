@@ -13,7 +13,7 @@ const image = ref()
 
 watchEffect(async () => {
   const country = countries.find((country) => country.name === props.name)
-  image.value = `/svg/${country.code.toLocaleLowerCase()}.svg`
+  image.value = `/svg/${country!.code.toLocaleLowerCase()}.svg`
 })
 </script>
 <template>
