@@ -39,6 +39,7 @@ const to = computed(() => {
 
 function deleteTravel() {
   travelStore.deleteTravel(props.travel.id)
+  setIsOpen(false)
 }
 const isOpen = ref(false)
 
