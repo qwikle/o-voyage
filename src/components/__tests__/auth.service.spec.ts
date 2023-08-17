@@ -3,8 +3,8 @@ import { test, expect } from 'vitest'
 
 test('authService.signIn', async () => {
   const user = await authService.signIn({
-    email: 'ahmed@ovoyage.com',
-    password: 'Ovoyage123'
+    email: 'test@test',
+    password: 'Test123'
   })
-  expect(user.email).toEqual('ahmed@ovoyage.com')
+  expect(user.email).toEqual('test')
 })
